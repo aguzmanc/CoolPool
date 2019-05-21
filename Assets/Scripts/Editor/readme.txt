@@ -12,7 +12,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(ScriptQueHeredaDeMonoBehaviour))]
 public class AlgunNombre : Editor {
-    ScriptQueHeredaDeMonoBehaviour Target { get => return (ScriptQueHeredaDeMonoBehaviour) target; }
+    ScriptQueHeredaDeMonoBehaviour Target { get => (ScriptQueHeredaDeMonoBehaviour) target; }
 
     public override void OnInspectorGUI () {
         DrawDefaultInspector();
@@ -43,7 +43,7 @@ public class AlgunNombre : Editor {
     }
 
     void OnSceneGUI () {
-        DrawGizmos(customTarget)
+        DrawGizmos(Target);
 
         if (GUI.changed) {
             EditorUtility.SetDirty(Target);
