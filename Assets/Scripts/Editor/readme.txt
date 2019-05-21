@@ -30,7 +30,7 @@ public class AlgunNombre : Editor {
 
     public static void DrawGizmos (ScriptQueHeredaDeMonoBehaviour customTarget) {
         // la sigueinte línea de código hace que todos los scripts se dibujen en el transform local del padre.
-        Handles.matrix = Target.transform.localToWorldMatrix;
+        Handles.matrix = customTarget.transform.localToWorldMatrix;
         // dibujar gizmos!
         // aquí se pone todo lo que queremos que aparezca en la escena.
         // también se puede poner directamete en OnSceneGUI, pero si lo hacemos así, no vamos a poder
