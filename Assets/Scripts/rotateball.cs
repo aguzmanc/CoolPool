@@ -17,7 +17,10 @@ public class rotateball : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)){
-            Vector3 direction = (cubePosition.position - transform.position).normalized;
+        
+            Vector3 direction = cubePosition.position - transform.position;
+            direction.y = 0.0f;
+            direction = direction.normalized;
             ballRigidbody.AddForce(direction * speed, ForceMode.Impulse);
         }
     }
