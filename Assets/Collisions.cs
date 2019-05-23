@@ -21,7 +21,8 @@ public class Collisions : MonoBehaviour
 
     void OnTriggerEnter(Collider collider) {
         if(collider.gameObject.GetComponent<Wall>()) {
-            hookLine.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
+            hook.GetComponent<Hook>().resetPosition();
+            hook.GetComponent<Hook>().resetHookPropierties();
         }
     }
 }

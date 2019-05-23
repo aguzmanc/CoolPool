@@ -12,7 +12,7 @@ public class Hook : MonoBehaviour
     
     void Start()
     {  
-        resetPropertiesLineRendererHook();
+        resetHookPropierties();
         resetPosition();
         rangeOfHook = 10;
     }
@@ -29,12 +29,11 @@ public class Hook : MonoBehaviour
         
         if(isOutRange()) {
             resetPosition();
-            resetPropertiesLineRendererHook();
+            resetHookPropierties();
         }
     }
     
-    void resetPosition() {
-        zFinalPosition = 0;
+    public void resetPosition() {
         hookLineRenderer.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
     }
 
@@ -42,7 +41,7 @@ public class Hook : MonoBehaviour
         isMovement = false;
     }
     
-    void resetPropertiesLineRendererHook() {
+    public void resetHookPropierties() {
         zFinalPosition = 0;
         isMovement = false;
     }
@@ -51,4 +50,3 @@ public class Hook : MonoBehaviour
         return (hookLineRenderer.GetPosition(1).z >= rangeOfHook);
     }
 }
-
