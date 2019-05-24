@@ -25,4 +25,11 @@ public class Collisions : MonoBehaviour
             hook.GetComponent<Hook>().resetHookPropierties();
         }
     }
+
+    void OnCollisionEnter(Collision collision) {
+        if(collision.gameObject.name == "BlockCube") {
+            hook.GetComponent<Hook>().resetPosition();
+            hook.GetComponent<Hook>().resetHookPropierties();
+        }
+    }
 }
