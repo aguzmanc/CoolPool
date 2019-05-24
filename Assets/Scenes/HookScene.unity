@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hookLineRenderer: {fileID: 143394389}
-  speed: 0.01
+  speed: 5
 --- !u!54 &143394392
 Rigidbody:
   m_ObjectHideFlags: 0

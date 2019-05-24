@@ -14,7 +14,7 @@ public class Hook : MonoBehaviour
     {  
         resetHookPropierties();
         resetPosition();
-        rangeOfHook = 10;
+        rangeOfHook = 20;
     }
     
     void Update() {
@@ -23,8 +23,8 @@ public class Hook : MonoBehaviour
         }
 
         if(isMovement) {
-            hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition + speed * Time.deltaTime));
-            zFinalPosition+= 0.1f;
+            hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
+            zFinalPosition+= speed * Time.deltaTime;
         }
         
         if(isOutRange()) {
