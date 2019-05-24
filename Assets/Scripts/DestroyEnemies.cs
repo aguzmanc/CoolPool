@@ -12,4 +12,8 @@ public class DestroyEnemies : MonoBehaviour
     {
         
     }
+    void OnTriggerEnter(Collider collider) {
+        print("choco");
+        
+    }
 }
