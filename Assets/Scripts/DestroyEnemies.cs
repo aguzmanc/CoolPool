@@ -12,8 +12,10 @@ public class DestroyEnemies : MonoBehaviour
     {
         
     }
-    void OnTriggerEnter(Collider collider) {
-        print("choco");
+    
+    void OnCollisionEnter(Collision c) {
+        if (c.gameObject.name == "Capsule")
+            Destroy(c.gameObject);
         
     }
 }
