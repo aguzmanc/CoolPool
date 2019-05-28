@@ -6,12 +6,11 @@ public class Collisions : MonoBehaviour
 {
     
     public GameObject hook;
-    LineRenderer hookLine;
-
+    LineRenderer hookLineRenderer;
 
     void Start()
     {
-        hookLine = hook.gameObject.GetComponent<LineRenderer>();
+        hookLineRenderer = hook.gameObject.GetComponent<LineRenderer>();
     }
 
     void Update()
@@ -27,9 +26,19 @@ public class Collisions : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.name == "BlockCube") {
-            hook.GetComponent<Hook>().resetPosition();
-            hook.GetComponent<Hook>().resetHookPropierties();
+        float yCollision;
+        if(isBlockCube(collision)) {
+            hook.GetComponent<Hook>().stopMovement();
+            hook.GetComponent<Hook>().hookedWithBlockCube();
+            yCollision = collision.transform.GetComponent<BoxCollider>().center.x;
+            
+            hookLineRenderer.SetPosition(1, 
+                                        hookLineRenderer.transform.InverseTransformPoint(
+                                        collision.contacts[0].point));
         }
+    }
+    
+    bool isBlockCube(Collision collision) {
+        return collision.gameObject.GetComponent<BlockCube>();
     }
 }
