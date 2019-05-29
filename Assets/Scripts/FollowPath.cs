@@ -5,47 +5,39 @@ using UnityEngine;
 public class FollowPath : MonoBehaviour
 {
     public float speed = 5;
-    Transform path;
-    int pivote = 1;
-    Vector3 target, origin, target2, target3;
+    public Transform path;
+    int child_number = 0;
+    Vector3 target;
+    int nChilds;
 
     void Start()
     {
-        path = transform.GetChild(0);
-        //nChilds = path.transform.childCount;
-        //target = path.transform.GetChild(0).transform.position;
-        target2 = path.transform.GetChild(1).transform.position;
-        origin = transform.position;
+        nChilds = path.childCount -1;
+        target = path.GetChild(child_number).transform.position;
     }
     void Update()
     {
         float deltaDistance = Time.deltaTime * speed;
+
         transform.position =
             Vector3.MoveTowards(transform.position,
                                 target,
                                 deltaDistance);
        
         if (transform.position == target){
-            switch (pivote)
-            {
-            case 0:
-                findTarget();
-                pivote++;
-                break;
-               
-            case 1:
-                target = target2;
-                pivote++;
-                break;
-            default:
-                target = origin;
-                pivote = 0;
-                break;
+            target = path.GetChild(child_number).transform.position;
+            if(child_number >= nChilds){
+                child_number = 0;
             }
+            else
+            {
+                child_number++;
+            }
+            
         }
 
     }
     void findTarget(){
-        target = path.transform.GetChild(pivote).transform.position;
+        target = path.transform.GetChild(child_number).transform.position;
     }
 }
