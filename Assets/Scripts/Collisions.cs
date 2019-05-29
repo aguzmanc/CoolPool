@@ -26,15 +26,14 @@ public class Collisions : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
-        float yCollision;
         if(isBlockCube(collision)) {
             hook.GetComponent<Hook>().stopMovement();
             hook.GetComponent<Hook>().hookedWithBlockCube();
-            yCollision = collision.transform.GetComponent<BoxCollider>().center.x;
-            
             hookLineRenderer.SetPosition(1, 
                                         hookLineRenderer.transform.InverseTransformPoint(
                                         collision.contacts[0].point));
+            
+            transform.parent.GetComponent<Hook>().setTargetCollision(collision.transform);
         }
     }
     
