@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PushBall : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 300;
     Rigidbody ballRigidbody;
    
     void Start()
@@ -17,10 +17,12 @@ public class PushBall : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit)) {
-            if (hit.transform.name == "Sphere" ) {
-                Vector3 direction = hit.normal;
+            if (hit.transform.gameObject.GetComponent<PushBall>()) {
+                Vector3 direction = hit.point - Camera.main.transform.position;
                 direction.y = 0.0f;
-                ballRigidbody.AddForce(-direction * speed, ForceMode.Impulse);
+                direction = direction.normalized;
+                ballRigidbody.AddForceAtPosition(direction * speed, hit.point);
+                
             }
         }
     }
