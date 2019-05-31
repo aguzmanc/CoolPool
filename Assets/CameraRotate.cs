@@ -11,6 +11,6 @@ public class CameraRotate : MonoBehaviour
     }
 
     void Update() {
-        transform.Rotate(0, Input.mouseScrollDelta.y * speed, 0, 0);
+        transform.Rotate(0, -Input.mouseScrollDelta.y * speed, 0, 0);
     }
 }
