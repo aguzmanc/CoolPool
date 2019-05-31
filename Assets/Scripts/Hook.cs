@@ -7,27 +7,28 @@ public class Hook : MonoBehaviour
     public LineRenderer hookLineRenderer;
     public float speed;
     float zFinalPosition;
-    bool isMovement;
+    bool isLineHookDrawing;
     float rangeOfHook;
     bool isHooked;
     public Transform targetHooked;
+    
+    Ray ray;
+    RaycastHit hit;
+    float xPositionRayCast;
+    Transform playerTransform;
 
     void Start()
     {  
         resetHookPropierties();
         resetPosition();
         rangeOfHook = 20;
+        playerTransform = transform.parent;
     }
-    void resetHookBehavior() {
-        isHooked = false;
-        targetHooked = null;
-        resetHookPropierties();
-        resetPosition();
-    }
-    void Update() {
 
+    void Update() {
+        
         if(Input.GetKeyDown(KeyCode.Space)) {
-            isMovement = true;
+            startLineHookDrawing();
         }
         
         if(Input.GetKeyDown(KeyCode.LeftControl)) {
@@ -35,52 +36,56 @@ public class Hook : MonoBehaviour
                 resetHookBehavior();
             }
             else {
-                startMovement();
+                startLineHookDrawing();
             }
         }
 
         if(Input.GetKey(KeyCode.Q) && targetHooked) {
-            float deltaDistance = Time.deltaTime * speed;
-            Transform playerTransform = transform.parent;
-            
-            
-            
-            if(hookLineRenderer.GetPosition(1).z > 0.9f) {
-                playerTransform.position =
-                Vector3.MoveTowards(playerTransform.position,
-                                    hookLineRenderer.transform.TransformPoint(hookLineRenderer.GetPosition(1)),
-                                    deltaDistance);
-                zFinalPosition-= speed * Time.deltaTime;
-                hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
+            if(isHookCanBeMoreLittle()) {
+                movePlayerTowardsHookedPoint();
             }
         }
 
-        if(isMovement) {
-            hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
-            zFinalPosition+= speed * Time.deltaTime;
+        if(isLineHookDrawing) {
+            drawHookLine();
         }
         
         if(isOutRange()) {
             resetHookPropierties();
             resetPosition();
         }
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0) &&
+            Physics.Raycast(ray, out hit) && !isLineHookDrawing) {
+            if(isHooked) {
+                resetHookBehavior();
+            }
+            else {
+                changeRotationPlayerToHitPoint();
+                startLineHookDrawing();
+            }
+        }
+    }
+
+    void resetHookBehavior() {
+        isHooked = false;
+        targetHooked = null;
+        resetHookPropierties();
+        resetPosition();
     }
     
     public void resetPosition() {
         hookLineRenderer.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
     }
-
-    public void stopMovement() {
-        isMovement = false;
-    }
     
-    public void startMovement() {
-        isMovement = true;
+    void startLineHookDrawing() {
+        isLineHookDrawing = true;
     }
 
     public void resetHookPropierties() {
         zFinalPosition = 0;
-        isMovement = false;
+        isLineHookDrawing = false;
     }
 
     bool isOutRange() {
@@ -93,11 +98,33 @@ public class Hook : MonoBehaviour
 
     public void setTargetCollision(Transform targetTransform) {
         targetHooked = targetTransform;
+    }  
+
+    public void stopMovement() {
+        isLineHookDrawing = false;
     }
 
-    void OnTriggerEnter(Collider collider) {
-        // if(collider.gameObject.GetComponent<BlockCube>()) {
-        //     resetHookBehavior();
-        // }
+    bool isHookCanBeMoreLittle() {
+        return hookLineRenderer.GetPosition(1).z > 0.9f;
+    }
+
+    void movePlayerTowardsHookedPoint() {
+        float deltaDistance = Time.deltaTime * speed;
+        playerTransform.position =
+            Vector3.MoveTowards(playerTransform.position,
+                                hookLineRenderer.transform.TransformPoint(hookLineRenderer.GetPosition(1)),
+                                deltaDistance);
+            zFinalPosition-= speed * Time.deltaTime;
+            hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
+    }
+
+    void changeRotationPlayerToHitPoint() {
+        playerTransform.LookAt(hit.point);
+        playerTransform.eulerAngles = new Vector3(0, playerTransform.eulerAngles.y, playerTransform.eulerAngles.z);
+    }
+    
+    void drawHookLine() {
+        hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
+        zFinalPosition+= speed * Time.deltaTime;
     }
 }
