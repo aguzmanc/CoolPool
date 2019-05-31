@@ -20,7 +20,6 @@ public class Collisions : MonoBehaviour
 
     void OnTriggerEnter(Collider collider) {
         if(collider.gameObject.GetComponent<Wall>()) {
-            hook.GetComponent<Hook>().resetPosition();
             hook.GetComponent<Hook>().resetHookPropierties();
         }
     }

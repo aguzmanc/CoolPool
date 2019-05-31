@@ -2,6 +2,5 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockCube : MonoBehaviour
-{
+public class BlockCube : MonoBehaviour{
 }
