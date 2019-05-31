@@ -10,7 +10,7 @@ public class Hook : MonoBehaviour
     bool isMovement;
     float rangeOfHook;
     bool isHooked;
-    
+    public Transform targetHooked;
 
     void Start()
     {  
@@ -18,20 +18,40 @@ public class Hook : MonoBehaviour
         resetPosition();
         rangeOfHook = 20;
     }
-    
+    void resetHookBehavior() {
+        isHooked = false;
+        targetHooked = null;
+        resetHookPropierties();
+        resetPosition();
+    }
     void Update() {
+
         if(Input.GetKeyDown(KeyCode.Space)) {
             isMovement = true;
         }
-
+        
         if(Input.GetKeyDown(KeyCode.LeftControl)) {
             if(isHooked) {
-                isHooked = false;
-                resetHookPropierties();
-                resetPosition();
+                resetHookBehavior();
             }
             else {
                 startMovement();
+            }
+        }
+
+        if(Input.GetKey(KeyCode.Q) && targetHooked) {
+            float deltaDistance = Time.deltaTime * speed;
+            Transform playerTransform = transform.parent;
+            
+            
+            
+            if(hookLineRenderer.GetPosition(1).z > 0.9f) {
+                playerTransform.position =
+                Vector3.MoveTowards(playerTransform.position,
+                                    hookLineRenderer.transform.TransformPoint(hookLineRenderer.GetPosition(1)),
+                                    deltaDistance);
+                zFinalPosition-= speed * Time.deltaTime;
+                hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
             }
         }
 
@@ -69,5 +89,15 @@ public class Hook : MonoBehaviour
 
     public void hookedWithBlockCube() {
         isHooked = true;
+    }
+
+    public void setTargetCollision(Transform targetTransform) {
+        targetHooked = targetTransform;
+    }
+
+    void OnTriggerEnter(Collider collider) {
+        // if(collider.gameObject.GetComponent<BlockCube>()) {
+        //     resetHookBehavior();
+        // }
     }
 }
