@@ -9,7 +9,9 @@ public class Hook : MonoBehaviour
     float zFinalPosition;
     bool isMovement;
     float rangeOfHook;
+    bool isHooked;
     
+
     void Start()
     {  
         resetHookPropierties();
@@ -22,14 +24,25 @@ public class Hook : MonoBehaviour
             isMovement = true;
         }
 
+        if(Input.GetKeyDown(KeyCode.LeftControl)) {
+            if(isHooked) {
+                isHooked = false;
+                resetHookPropierties();
+                resetPosition();
+            }
+            else {
+                startMovement();
+            }
+        }
+
         if(isMovement) {
             hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
             zFinalPosition+= speed * Time.deltaTime;
         }
         
         if(isOutRange()) {
-            resetPosition();
             resetHookPropierties();
+            resetPosition();
         }
     }
     
@@ -37,10 +50,14 @@ public class Hook : MonoBehaviour
         hookLineRenderer.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
     }
 
-    void resetMovent() {
+    public void stopMovement() {
         isMovement = false;
     }
     
+    public void startMovement() {
+        isMovement = true;
+    }
+
     public void resetHookPropierties() {
         zFinalPosition = 0;
         isMovement = false;
@@ -48,5 +65,9 @@ public class Hook : MonoBehaviour
 
     bool isOutRange() {
         return (hookLineRenderer.GetPosition(1).z >= rangeOfHook);
+    }
+
+    public void hookedWithBlockCube() {
+        isHooked = true;
     }
 }
