@@ -1,19 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class ChangeLevel : MonoBehaviour
 {
-    List<string> niveles = new List<string>{"level1", "level2", "level3"};
+    public Object[] scenes;
     static int currentLevel = 0;
-
-
+    List<SceneAsset> levels = new List<SceneAsset>();
+    void Start()
+    {
+        for (int i = 0; i < scenes.Length ; i++){
+             levels.Add( scenes[i] as SceneAsset);
+          
+        }
+    }
     public void NextScene() {
-        print(niveles.Count);
-        print(currentLevel);
-        if (currentLevel < niveles.Count - 1 ) {
-            SceneManager.LoadScene(niveles[currentLevel + 1]);
+        if (currentLevel < levels.Count - 1 ) {
+            SceneManager.LoadScene(levels[currentLevel + 1].name);
             currentLevel ++;
         }
     }
@@ -21,13 +26,13 @@ public class ChangeLevel : MonoBehaviour
 
     public void PreviousScene() {
         if (currentLevel > 0) {
-            SceneManager.LoadScene(niveles[currentLevel - 1]);
+            SceneManager.LoadScene(levels[currentLevel - 1].name);
             currentLevel --;
         }
     }
 
     public void ReloadScene() {
-        SceneManager.LoadScene(niveles[currentLevel]);
+        SceneManager.LoadScene(levels[currentLevel].name);
     }
     
 }
