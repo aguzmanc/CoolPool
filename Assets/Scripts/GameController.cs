@@ -11,9 +11,9 @@ public class GameController : MonoBehaviour
     static int currentLevel;
     List<string> levels = new List<string>();
 
-    public static GameController instance{
+    public static GameController instance {
         get{ 
-            if(_instance==null){
+            if(_instance == null){
                 GameObject go = new GameObject();
                 _instance = go.AddComponent<GameController>();
             }
@@ -21,13 +21,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void Start(){
+
+    void Awake()
+    {
         if(_instance) {
-            //Debug.Log("Si hay otro, ERROR!!");
             Destroy(gameObject);
             return;
         }
         _instance = this;
+    }
+
+    void Start() {
         RetrieveAllScenes();
         currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
     }
