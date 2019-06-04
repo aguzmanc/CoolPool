@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PushBall : MonoBehaviour
 {
-    public float speed = 300;
+    public float speed = 30;
     Rigidbody ballRigidbody;
    
     void Start()
@@ -25,5 +25,18 @@ public class PushBall : MonoBehaviour
                 
             }
         }
+    }
+
+
+    void OnCollisionEnter(Collision other)
+    {   Transform c = other.gameObject.transform;
+        if (c.name == "Objetivo") {
+            Vector3 direction = transform.position - c.parent.transform.position;
+            Vector3 position = other.GetContact(0).point;
+            //ballRigidbody.AddForce(direction, position, 1000, ForceMode.Impulse);
+            ballRigidbody.AddForceAtPosition(direction, position);
+        }
+        
+
     }
 }
