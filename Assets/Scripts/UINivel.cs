@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class UINivel : MonoBehaviour
 {
-   public void SiguienteNivel(){
-        //ChangeLevel level = GameObject.FindObjectOfType<ChangeLevel>();
-
-        //ChangeLevel.GetInstance().NextScene();
-        ChangeLevel.instance.NextScene();
-        //ChangeLevel.instance.NextScene();
-
-        //ChangeLevel.NextScene();
-        //level.NextScene();
-
-        //ChangeLevel._instance = null; // no es posible acceder
+   public void NextLevel(){
+        GameController.instance.NextScene();
     }
 
-    public void AnteriorNivel(){}
+    public void PrevLevel(){
+        GameController.instance.PreviousScene();
+    }
 
-    public void JugarDeNuevo(){}
+    public void PlayAgain(){
+        GameController.instance.ReloadScene();
+    }
 }

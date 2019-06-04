@@ -566,8 +566,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 706340865}
-        m_MethodName: NextScene
+      - m_Target: {fileID: 898452449}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 706340864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93905d475e49c48499ba4811b91011a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 318f34ffbfb56488fbde1661615693fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scenes:
@@ -675,6 +675,7 @@ GameObject:
   - component: {fileID: 898452447}
   - component: {fileID: 898452446}
   - component: {fileID: 898452445}
+  - component: {fileID: 898452449}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -765,6 +766,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &898452449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898452444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74fce8277962049bebd8af1683bbe4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &979620712
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,8 +857,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 706340865}
-        m_MethodName: PreviousScene
+      - m_Target: {fileID: 898452449}
+        m_MethodName: PrevLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -973,8 +986,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 706340865}
-        m_MethodName: ReloadScene
+      - m_Target: {fileID: 898452449}
+        m_MethodName: PlayAgain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
