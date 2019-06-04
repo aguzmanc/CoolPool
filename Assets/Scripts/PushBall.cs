@@ -34,7 +34,7 @@ public class PushBall : MonoBehaviour
             Vector3 direction = transform.position - c.parent.transform.position;
             Vector3 position = other.GetContact(0).point;
             //ballRigidbody.AddForce(direction, position, 1000, ForceMode.Impulse);
-            ballRigidbody.AddForceAtPosition(direction, position);
+            ballRigidbody.AddForceAtPosition(direction.normalized * speed, position);
         }
         
 
