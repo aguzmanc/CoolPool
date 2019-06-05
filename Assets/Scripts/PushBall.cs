@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class PushBall : MonoBehaviour
 {
-    public float speed = 300;
+    public float strength = 30;
     Rigidbody ballRigidbody;
-   
-    void Start()
+    void Awake()
     {
         ballRigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit)) {
-            if (hit.transform.gameObject.GetComponent<PushBall>()) {
-                Vector3 direction = hit.point - Camera.main.transform.position;
-                direction.y = 0.0f;
-                direction = direction.normalized;
-                ballRigidbody.AddForceAtPosition(direction * speed, hit.point);
-                
-            }
+
+    void OnCollisionEnter(Collision other)
+    {   Transform c = other.gameObject.transform;
+        if (c.GetComponent<FollowTarget>()) {
+            Vector3 direction = transform.position - c.parent.transform.position;
+            direction.y = 0;
+            Vector3 position = other.GetContact(0).point;
+            position.y = 0;
+            ballRigidbody.AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
         }
     }
 }
