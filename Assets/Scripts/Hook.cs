@@ -16,29 +16,29 @@ public class Hook : MonoBehaviour
     RaycastHit hit;
     float xPositionRayCast;
     Transform playerTransform;
-
-    void Start()
-    {  
+    
+    void Start() {  
         resetHookPropierties();
-        resetPosition();
         rangeOfHook = 20;
         playerTransform = transform.parent;
     }
 
     void Update() {
-        
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            startLineHookDrawing();
+        updatePlayerControls();
+        updateHookControl();
+    } 
+
+    void updateHookControl() {
+        if(isLineHookDrawing) {
+            drawHookLine();
         }
         
-        if(Input.GetKeyDown(KeyCode.LeftControl)) {
-            if(isHooked) {
-                resetHookBehavior();
-            }
-            else {
-                startLineHookDrawing();
-            }
+        if(isOutRange()) {
+            resetHookBehavior();
         }
+    }
+
+    void updatePlayerControls() {
 
         if(Input.GetKey(KeyCode.Q) && targetHooked) {
             if(isHookCanBeMoreLittle()) {
@@ -46,18 +46,10 @@ public class Hook : MonoBehaviour
             }
         }
 
-        if(isLineHookDrawing) {
-            drawHookLine();
-        }
-        
-        if(isOutRange()) {
-            resetHookPropierties();
-            resetPosition();
-        }
-
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Input.GetMouseButtonDown(0) &&
-            Physics.Raycast(ray, out hit) && !isLineHookDrawing) {
+            Physics.Raycast(ray, out hit) && 
+            !isLineHookDrawing) {
             if(isHooked) {
                 resetHookBehavior();
             }
@@ -69,14 +61,7 @@ public class Hook : MonoBehaviour
     }
 
     void resetHookBehavior() {
-        isHooked = false;
-        targetHooked = null;
         resetHookPropierties();
-        resetPosition();
-    }
-    
-    public void resetPosition() {
-        hookLineRenderer.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
     }
     
     void startLineHookDrawing() {
@@ -86,6 +71,9 @@ public class Hook : MonoBehaviour
     public void resetHookPropierties() {
         zFinalPosition = 0;
         isLineHookDrawing = false;
+        isHooked = false;
+        targetHooked = null;
+        hookLineRenderer.SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
     }
 
     bool isOutRange() {
