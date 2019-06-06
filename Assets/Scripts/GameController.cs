@@ -58,6 +58,11 @@ public class GameController : MonoBehaviour
     public void ReloadScene() {
         SceneManager.LoadScene(levels[currentLevel]);
     }
+
+    public static void TriggerVictory() {
+        //UIManager.DisplayVictory(); 
+        print ("Woooooooo Ganaste!!!");
+    }
     
 }
 

@@ -22,4 +22,10 @@ public class PushBall : MonoBehaviour
             ballRigidbody.AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
         }
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.GetComponent<Goal>()) {
+           GameController.TriggerVictory();
+        }
+    }
 }
