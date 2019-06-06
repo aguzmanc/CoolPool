@@ -18,14 +18,17 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    void Start() {
-        _instance = this;
+    void Awake() {
         victoryAnimation = GameObject.Find("Victory").GetComponent<Animator>();
         gameOverAnimation = GameObject.Find("GameOver").GetComponent<Animator>();
 
         backLevelButton = GameObject.Find("BackLevel").GetComponent<Animator>();
         repeatLevelButton = GameObject.Find("RepeatLevel").GetComponent<Animator>();
         nextLevelButton = GameObject.Find("NextLevel").GetComponent<Animator>();
+    }
+
+    void Start() {
+        _instance = this;
     }
 
     void Update() {
