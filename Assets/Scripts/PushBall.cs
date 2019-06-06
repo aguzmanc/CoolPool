@@ -25,7 +25,7 @@ public class PushBall : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if(other.transform.GetComponent<Goal>()) {
-            print("ganasteeeeeeeeeee");
+           GameController.TriggerVictory();
         }
     }
 }
