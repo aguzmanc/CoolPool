@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 706340866}
   - component: {fileID: 706340865}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -642,13 +642,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 706340864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318f34ffbfb56488fbde1661615693fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 463d88db0915047b9802f28d15a71cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenes:
-  - {fileID: 102900000, guid: 44684ffcac9374b3995765078544d5e7, type: 3}
-  - {fileID: 102900000, guid: 566d6313190be408b82e784215281305, type: 3}
-  - {fileID: 102900000, guid: 92c5e49f5d20b43e3808381cff9e288d, type: 3}
+  scenes: []
 --- !u!4 &706340866
 Transform:
   m_ObjectHideFlags: 0

@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    private static GameController _instance;
+    private static GameManager _instance;
     public Object[] scenes;
     static int currentLevel;
     List<string> levels = new List<string>();
 
-    public static GameController instance {
+    public static GameManager instance {
         get{ 
             if(_instance == null){
                 GameObject go = new GameObject();
-                _instance = go.AddComponent<GameController>();
+                _instance = go.AddComponent<GameManager>();
             }
             return _instance;
         }
