@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UINivel : MonoBehaviour
 {
-   public void NextLevel(){
+    public void NextLevel(){
         GameController.instance.NextScene();
     }
 

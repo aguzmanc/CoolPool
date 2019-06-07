@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
         RetrieveAllScenes();
         currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
     }
+
     void RetrieveAllScenes() {
         for (int i = 0; i < scenes.Length ; i++){
             SceneAsset level = scenes[i] as SceneAsset;
@@ -60,8 +61,7 @@ public class GameController : MonoBehaviour
     }
 
     public static void TriggerVictory() {
-        //UIManager.DisplayVictory(); 
-        print ("Woooooooo Ganaste!!!");
+        UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
     }
     
 }
