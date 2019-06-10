@@ -62,14 +62,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void NextLevel(){
-        GameController.instance.NextScene();
+        GameManager.instance.NextScene();
     }
 
     public void PrevLevel(){
-        GameController.instance.PreviousScene();
+        GameManager.instance.PreviousScene();
     }
 
     public void PlayAgain(){
-        GameController.instance.ReloadScene();
+        GameManager.instance.ReloadScene();
     }
 }
