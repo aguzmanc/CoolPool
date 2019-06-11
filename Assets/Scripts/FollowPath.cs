@@ -13,7 +13,7 @@ public class FollowPath : MonoBehaviour
     void Start()
     {
         nChilds = path.childCount - 1;
-        if (speed < 0){
+        if (!IsSpeedPositive()){
             child_number = nChilds;
         }
         findTarget();
@@ -36,22 +36,33 @@ public class FollowPath : MonoBehaviour
     
     void findTarget(){
         target = path.GetChild(child_number).transform.position;
-        if (speed > 0){
-            if(child_number >= nChilds){
-                child_number = 0;
-            }
-            else{
-                child_number++;
-            }
+        if (IsSpeedPositive()){
+            FindPositiveChild();
         }
-        if (speed < 0){
-            if(child_number <= 0){
-                child_number = nChilds;
-            }
-            else{
-                child_number--;
-            }
+        else {
+            FindNegativeChild();
+        }  
+    }
+   
+    void FindPositiveChild(){
+        if(child_number >= nChilds){
+            child_number = 0;
         }
-        
+        else{
+            child_number++;
+        }
+    }
+    
+    void FindNegativeChild(){
+        if(child_number <= 0){
+            child_number = nChilds;
+        }
+        else{
+            child_number--;
+        }
+    }
+
+    bool IsSpeedPositive(){
+        return speed > 0;
     }
 }
