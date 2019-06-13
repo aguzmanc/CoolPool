@@ -6,40 +6,67 @@ using System.Collections.Generic;
 
 [CustomEditor(typeof(MoveGameObjects))]
 public class MoveGameObjectsEditor : Editor {
+    
     MoveGameObjects Target { get => (MoveGameObjects) target; }
-    List<Transform> movableObjects = new List<Transform>();
-   
+    static List<Transform> movableObjects;
+    static Dictionary<string, bool> buttonsState;
+    
+    public void OnEnable() {
+        movableObjects = new List<Transform>();
+        buttonsState = new Dictionary<string, bool>();
 
-    public override void OnInspectorGUI () {
-        DrawDefaultInspector();
-        GUILayout.Button("Mover Jugador");
         ChargeAllChilds(Target.transform);
-        // if (Target.director == null) return;
-        // if (GUILayout.Button("Play")) {
-        //     Target.Play();
-        // }
-        // if (GUILayout.Button(Target.IsPaused? "Resume": "Play")) {
-        //     Target.TogglePause();
-        // }
-        // isEditingGoal = GUILayout.Toggle(isEditingGoal, "Mover goal", "Button");
-        // if (GUI.changed && !Application.isPlaying) {
-        //     EditorUtility.SetDirty(Target);
-        //     EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
-        // }
-        foreach(Transform tranform in movableObjects) {
-            Debug.Log(tranform);
+        chargeDictionary();
+    }
+
+    void chargeDictionary() {
+        for (int i = 0 ; i < movableObjects.Count; i++) {
+            buttonsState.Add(movableObjects[i].name, false);
         }
     }
 
-
-    void ChargeAllChilds(Transform transform){
-        for (int i= 0; i < transform.childCount; i++){
-            ChargeAllChilds(transform.GetChild(i));
-            if (transform.GetComponent<IMoveObjects>() != null){
-                 movableObjects.Add(transform);
-            }
-            Debug.Log("xxdxd");
-        }   
+    void chargeButtons() {
+        for (int i = 0 ; i < movableObjects.Count; i++) {
+            buttonsState[movableObjects[i].name] = GUILayout.Toggle(buttonsState[movableObjects[i].name], "Mover " + movableObjects[i].name, "Button");
+        }
     }
 
+    Transform findTransformInList(string nameObject) {
+        foreach(Transform tranform in movableObjects) {
+            if(tranform.name == nameObject) { 
+                return tranform;
+            }
+        }
+        return null;
+    }
+    
+    public void OnDisable() {
+        movableObjects = null;
+        buttonsState = null;
+    }
+
+    void OnSceneGUI() {
+        for (int i = 0 ; i < movableObjects.Count; i++) {
+            if(buttonsState[movableObjects[i].name]) {
+                movableObjects[i].position = Handles.PositionHandle(movableObjects[i].position, Quaternion.identity);
+            }
+        }
+        SceneView.RepaintAll();
+    }
+    
+    public override void OnInspectorGUI () {
+        DrawDefaultInspector();
+        chargeButtons();
+    }
+
+
+    void ChargeAllChilds(Transform transform) {    
+        for (int i= 0; i < transform.childCount; i++){
+            ChargeAllChilds(transform.GetChild(i));
+        }
+
+        if (transform.GetComponent<IMoveObjects>() != null){
+            movableObjects.Add(transform);
+        }
+    }
 }
