@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     Animator repeatLevelButton;
     Animator nextLevelButton;
 
+    public GameObject hook;
+
     public static UIManager instance{
         get{
             return _instance;
@@ -35,11 +37,13 @@ public class UIManager : MonoBehaviour
         
     }
     public void ShowVictoryOverLay() {
+        DestroyHookControl();
         victoryAnimation.SetBool("Activate", true);
         LevelChangeButtons();
     }
     
     public void ShowGameEndOverLay() {
+        DestroyHookControl();
         gameOverAnimation.SetBool("Activate", true);
         LevelChangeButtons();
     }
@@ -71,5 +75,9 @@ public class UIManager : MonoBehaviour
 
     public void PlayAgain(){
         GameManager.instance.ReloadScene();
+    }
+
+    public void DestroyHookControl() {
+        Destroy(hook);
     }
 }
