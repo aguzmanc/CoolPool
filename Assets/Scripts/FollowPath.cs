@@ -36,6 +36,7 @@ public class FollowPath : MonoBehaviour
     
     void findTarget(){
         target = path.GetChild(child_number).transform.position;
+        // child_number = (child_number + (IsSpeedPositive()? 1: -1) + nChilds) % nChilds;
         if (IsSpeedPositive()){
             FindPositiveChild();
         }
