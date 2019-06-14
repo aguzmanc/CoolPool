@@ -25,10 +25,17 @@ public class MoveGameObjectsEditor : Editor {
         }
     }
 
-    void chargeButtons() {
+    bool chargeButtons() {
+        bool changed = false;
         for (int i = 0 ; i < movableObjects.Count; i++) {
-            buttonsState[movableObjects[i].name] = GUILayout.Toggle(buttonsState[movableObjects[i].name], "Mover " + movableObjects[i].name, "Button");
+            bool newValue = GUILayout.Toggle(buttonsState[movableObjects[i].name], "Mover " + movableObjects[i].name, "Button");
+            if (newValue != buttonsState[movableObjects[i].name]) {
+                changed = true;
+            }
+            buttonsState[movableObjects[i].name] = newValue;
         }
+
+        return true;
     }
 
     Transform findTransformInList(string nameObject) {
@@ -48,19 +55,25 @@ public class MoveGameObjectsEditor : Editor {
     void DrawGizmos() {
         for (int i = 0 ; i < movableObjects.Count; i++) {
             if(buttonsState[movableObjects[i].name]) {
-                movableObjects[i].position = Handles.PositionHandle(movableObjects[i].position, Quaternion.identity);
+                Vector3 newPosition = Handles.PositionHandle(movableObjects[i].position, Quaternion.identity);
+                if (newPosition != movableObjects[i].position) {
+                    Undo.RecordObject(movableObjects[i], "algo se movió!");
+                    movableObjects[i].position = newPosition;
+                }
             }
         }
     }
 
     void OnSceneGUI() {
        DrawGizmos();
-        SceneView.RepaintAll();
+       // SceneView.RepaintAll();
     }
     
     public override void OnInspectorGUI () {
         DrawDefaultInspector();
-        chargeButtons();
+        if (chargeButtons()) {
+            SceneView.RepaintAll();
+        }
     }
 
     void ChargeAllChilds(Transform transform) {    
