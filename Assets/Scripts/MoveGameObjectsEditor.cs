@@ -45,12 +45,16 @@ public class MoveGameObjectsEditor : Editor {
         buttonsState = null;
     }
 
-    void OnSceneGUI() {
+    void DrawGizmos() {
         for (int i = 0 ; i < movableObjects.Count; i++) {
             if(buttonsState[movableObjects[i].name]) {
                 movableObjects[i].position = Handles.PositionHandle(movableObjects[i].position, Quaternion.identity);
             }
         }
+    }
+
+    void OnSceneGUI() {
+       DrawGizmos();
         SceneView.RepaintAll();
     }
     
@@ -58,7 +62,6 @@ public class MoveGameObjectsEditor : Editor {
         DrawDefaultInspector();
         chargeButtons();
     }
-
 
     void ChargeAllChilds(Transform transform) {    
         for (int i= 0; i < transform.childCount; i++){
