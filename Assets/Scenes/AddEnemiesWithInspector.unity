@@ -225,4 +225,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 6880466008312499865, guid: 6169ff350760d482a86ccd7349b82f7c, type: 3}
-  positionIndicator: {fileID: 1912466428}

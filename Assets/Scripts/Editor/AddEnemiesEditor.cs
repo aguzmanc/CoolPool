@@ -8,12 +8,12 @@ using UnityEngine;
 public class AddEnemiesEditor : Editor {
 
     AddEnemies Target { get => (AddEnemies) target; }
-    
-    public override void OnInspectorGUI () {
-        if (GUILayout.Button("Crear enemigo!")) {
-            Target.CreateEnemy(Target.positionIndicator.position);
-        }
+    static bool isEnemyButtonPressed;
 
+    public override void OnInspectorGUI () {
+        DrawDefaultInspector();
+        isEnemyButtonPressed = GUILayout.Toggle(isEnemyButtonPressed ,"Crear enemigo", "Button");
+        
         if (GUI.changed && !Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
@@ -21,37 +21,28 @@ public class AddEnemiesEditor : Editor {
     }
 
     void OnSceneGUI () {
-        DrawGizmos(Target);
+        // DrawGizmos(Target);
         RaycastHit hitInfo;
         Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         
-        if (Physics.Raycast(worldRay, out hitInfo)) {
-            Debug.Log(hitInfo.point);
-            if (Event.current.type == EventType.MouseDown) {
-                // GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
-                // Event.current.Use();
-                Target.CreateEnemy(hitInfo.point);
+        if(isEnemyButtonPressed) {
+            if (Physics.Raycast(worldRay, out hitInfo)) {
+                if (Event.current.type == EventType.MouseDown) {
+                    GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
+                    Event.current.Use();
+                    //Como darle cmd+z para que un objecto creado se borre ?
+                    Undo.RecordObject(Target.CreateEnemy(hitInfo.point), "Se creo un enemigo");
+                }
             }
         }
         
-        /*
-        Handles.color = new Color(1,0,0, 1);
-        
-         Handles.DrawSolidDisc(Target.transform.position, Vector3.up, 0.5f);
-        
-        if (Handles.Button(Target.transform.position, Quaternion.Euler(90, 0,0),
-                           0.5f, 0.5f, Handles.CircleHandleCap)) {
-            Debug.Log("!!!!??");
-        }
-        */
-
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
         }
     }
 
-    public static void DrawGizmos (AddEnemies customTarget) {
-        Handles.matrix = customTarget.transform.localToWorldMatrix;
-    }
+    // public static void DrawGizmos (AddEnemies customTarget) {
+    //     Handles.matrix = customTarget.transform.localToWorldMatrix;
+    // }
 }

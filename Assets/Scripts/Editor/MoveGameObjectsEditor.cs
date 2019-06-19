@@ -34,7 +34,6 @@ public class MoveGameObjectsEditor : Editor {
             }
             buttonsState[movableObjects[i].name] = newValue;
         }
-
         return true;
     }
 
