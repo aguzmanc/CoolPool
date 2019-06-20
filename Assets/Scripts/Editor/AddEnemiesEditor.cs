@@ -30,15 +30,32 @@ public class AddEnemiesEditor : Editor {
                 if (Event.current.type == EventType.MouseDown) {
                     GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
                     Event.current.Use();
-                    //Como darle cmd+z para que un objecto creado se borre ?
-                    Undo.RecordObject(Target.CreateEnemy(hitInfo.point), "Se creo un enemigo");
+                    // Undo.RecordObject(Target.CreateEnemy(hitInfo.point);, "Se creo un enemigo");
+                    
+                    GameObject enemy = Target.CreateEnemy(hitInfo.point);
                 }
             }
         }
+
         
+        DrawButtonsToDeleteEnemies();
+        
+
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
+        }
+    }
+    void DrawButtonsToDeleteEnemies() {
+        Handles.color = new Color(1, 0, 0, 1);
+        List<GameObject> enemiesList = Target.getEnemiesList();
+        
+        for(int i = 0; i < enemiesList.Count; i++) {
+            Handles.DrawSolidDisc(enemiesList[i].transform.position, Vector3.up, 0.5f);    
+            if (Handles.Button(enemiesList[i].transform.position, Quaternion.Euler(90, 0,0),
+                0.5f, 0.5f, Handles.CircleHandleCap)) {
+                Target.DestroyEnemy(enemiesList[i]);
+            }
         }
     }
 
