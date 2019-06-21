@@ -34,9 +34,20 @@ public class Collisions : MonoBehaviour
             
             transform.parent.GetComponent<Hook>().setTargetCollision(collision.transform);
         }
+        if (collision.transform.GetComponent<PushBall>()) {
+            Vector3 direction = collision.transform.position - transform.parent.position;
+            direction.y = 0;
+            Vector3 position = collision.GetContact(0).point;
+            position.y = 0;
+            collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * 30, position, ForceMode.Impulse);
+        }
     }
     
     bool isBlockCube(Collision collision) {
         return collision.gameObject.GetComponent<BlockCube>();
+    }
+    
+    bool isBall(Collision collision) {
+        return collision.gameObject.GetComponent<PushBall>();
     }
 }
