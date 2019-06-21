@@ -17,7 +17,7 @@ public class MoveGameObjectsEditor : Editor {
     public void OnEnable() {
         movableObjects = new List<Transform>();
         buttonsState = new Dictionary<string, bool>();
-        ChargeAllChilds(Target.transform);
+        ChargeAllTransforms(Target.transform);
         chargeDictionary();
         plane = false;
         LastTool = Tools.current;
@@ -89,9 +89,9 @@ public class MoveGameObjectsEditor : Editor {
         }
     }
 
-    void ChargeAllChilds(Transform transform) {    
+    void ChargeAllTransforms(Transform transform) {    
         for (int i= 0; i < transform.childCount; i++){
-            ChargeAllChilds(transform.GetChild(i));
+            ChargeAllTransforms(transform.GetChild(i));
         }
 
         if (transform.GetComponent<IMoveObjects>() != null){
