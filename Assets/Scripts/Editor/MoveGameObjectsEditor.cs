@@ -67,10 +67,11 @@ public class MoveGameObjectsEditor : Editor {
             }
         }
         if (plane){
-            Vector3 newPosition = Handles.PositionHandle(planePos.position, Quaternion.identity);
-            if (newPosition != planePos.position) {
+            //Vector3 newPosition = Handles.PositionHandle(planePos.position, Quaternion.identity);
+            Vector3 newPosition = Handles.ScaleHandle(planePos.localScale, Vector3.zero, Quaternion.identity, 5);
+            if (newPosition != planePos.localScale) {
                 Undo.RecordObject(planePos, "algo se movió!");
-                planePos.position = newPosition;
+                planePos.localScale = newPosition;
             }
         }
     }
