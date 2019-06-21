@@ -34,13 +34,9 @@ public class Collisions : MonoBehaviour
             
             transform.parent.GetComponent<Hook>().setTargetCollision(collision.transform);
         }
-        if (collision.transform.GetComponent<PushBall>()) {
-            Vector3 direction = collision.transform.position - transform.parent.position;
-            direction.y = 0;
-            Vector3 position = collision.GetContact(0).point;
-            position.y = 0;
-            collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * 30, position, ForceMode.Impulse);
-            transform.parent.GetComponent<Hook>().resetHookPropierties();
+        if (isBall(collision)) {
+            hitBall(collision);
+            resetHook(); 
         }
     }
     
@@ -49,6 +45,19 @@ public class Collisions : MonoBehaviour
     }
     
     bool isBall(Collision collision) {
-        return collision.gameObject.GetComponent<PushBall>();
+        return collision.transform.GetComponent<PushBall>();
+    }
+
+    void hitBall(Collision collision) {
+        Vector3 direction = collision.transform.position - transform.parent.position;
+        direction.y = 0;
+        Vector3 position = collision.GetContact(0).point;
+        position.y = 0;
+        float strength = collision.transform.GetComponent<PushBall>().strength;
+        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
+    }
+    
+    void resetHook() {
+        transform.parent.GetComponent<Hook>().resetHookPropierties();
     }
 }
