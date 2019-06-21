@@ -40,6 +40,7 @@ public class Collisions : MonoBehaviour
             Vector3 position = collision.GetContact(0).point;
             position.y = 0;
             collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * 30, position, ForceMode.Impulse);
+            transform.parent.GetComponent<Hook>().resetHookPropierties();
         }
     }
     
