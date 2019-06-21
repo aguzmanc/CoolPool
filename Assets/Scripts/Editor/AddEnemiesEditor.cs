@@ -25,7 +25,6 @@ public class AddEnemiesEditor : Editor {
     }
 
     void OnSceneGUI () {
-        //actulizar lista
         updateListEnemies();
         RaycastHit hitInfo;
         Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
