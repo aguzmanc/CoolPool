@@ -20,8 +20,13 @@ public class AddEnemiesEditor : Editor {
         }
     }
 
+    void updateListEnemies() {
+        Target.udpateListEnemies();
+    }
+
     void OnSceneGUI () {
-        // DrawGizmos(Target);
+        //actulizar lista
+        updateListEnemies();
         RaycastHit hitInfo;
         Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         
@@ -30,22 +35,19 @@ public class AddEnemiesEditor : Editor {
                 if (Event.current.type == EventType.MouseDown) {
                     GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
                     Event.current.Use();
-                    // Undo.RecordObject(Target.CreateEnemy(hitInfo.point);, "Se creo un enemigo");
-                    
-                    GameObject enemy = Target.CreateEnemy(hitInfo.point);
+                    Undo.RegisterCreatedObjectUndo(Target.CreateEnemy(hitInfo.point), "Se creo un enemigo");
                 }
             }
         }
 
-        
         DrawButtonsToDeleteEnemies();
         
-
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
         }
     }
+
     void DrawButtonsToDeleteEnemies() {
         Handles.color = new Color(1, 0, 0, 1);
         List<GameObject> enemiesList = Target.getEnemiesList();
@@ -58,8 +60,4 @@ public class AddEnemiesEditor : Editor {
             }
         }
     }
-
-    // public static void DrawGizmos (AddEnemies customTarget) {
-    //     Handles.matrix = customTarget.transform.localToWorldMatrix;
-    // }
 }

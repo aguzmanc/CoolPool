@@ -36,4 +36,12 @@ public class AddEnemies : MonoBehaviour
             }
         }
     }
+
+    public void udpateListEnemies() {
+        for(int i = 0; i < listEnemies.Count; i++) {
+            if(listEnemies[i] == null) {
+                listEnemies.RemoveAt(i);
+            }
+        }
+    }
 }
