@@ -77,8 +77,7 @@ public class AddEnemiesEditor : Editor {
                     init = listOfChilds[j];
                     previousPath = listOfChilds[j];
                     continue;
-                    // init = connectedObject.position;
-                    // Handles.DrawLine(init, connectedObject.position);
+                    
                 }
                 else {
                     Handles.DrawLine(previousPath.position, connectedObject.position);
