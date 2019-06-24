@@ -5,12 +5,16 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
+    
     Animator victoryAnimation;
     Animator gameOverAnimation;
 
     Animator backLevelButton;
     Animator repeatLevelButton;
     Animator nextLevelButton;
+
+    UnityEngine.UI.Text timerText;
+    Animator timerAnimations;
 
     public GameObject hook;
 
@@ -21,12 +25,10 @@ public class UIManager : MonoBehaviour
     }
     
     void Awake() {
-        victoryAnimation = GameObject.Find("Victory").GetComponent<Animator>();
-        gameOverAnimation = GameObject.Find("GameOver").GetComponent<Animator>();
+        ChargeFinishGameButtons();
 
-        backLevelButton = GameObject.Find("BackLevel").GetComponent<Animator>();
-        repeatLevelButton = GameObject.Find("RepeatLevel").GetComponent<Animator>();
-        nextLevelButton = GameObject.Find("NextLevel").GetComponent<Animator>();
+        timerText = GameObject.Find("TimerText").GetComponent<UnityEngine.UI.Text>();
+        timerAnimations = GameObject.Find("TimerText").GetComponent<Animator>();       
     }
 
     void Start() {
@@ -34,8 +36,12 @@ public class UIManager : MonoBehaviour
     }
 
     void Update() {
-        
+        string time = "5";
+        timerText.text = "Tiempo: ";
+        timerAnimations.SetBool("Less10Seconds", true);
+        // timerText.text = "Tiempo: " + GameManager.instance.GetElapsedTime();
     }
+
     public void ShowVictoryOverLay() {
         DestroyHookControl();
         victoryAnimation.SetBool("Activate", true);
@@ -79,5 +85,14 @@ public class UIManager : MonoBehaviour
 
     public void DestroyHookControl() {
         Destroy(hook);
+    }
+
+    public void ChargeFinishGameButtons() {
+        victoryAnimation = GameObject.Find("Victory").GetComponent<Animator>();
+        gameOverAnimation = GameObject.Find("GameOver").GetComponent<Animator>();
+
+        backLevelButton = GameObject.Find("BackLevel").GetComponent<Animator>();
+        repeatLevelButton = GameObject.Find("RepeatLevel").GetComponent<Animator>();
+        nextLevelButton = GameObject.Find("NextLevel").GetComponent<Animator>();       
     }
 }
