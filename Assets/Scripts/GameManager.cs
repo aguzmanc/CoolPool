@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     public Object[] scenes;
     static int currentLevel;
     List<string> levels = new List<string>();
-    public TimeCountingMethod timeCountingMethod;
-    public float elapsedTime;
+    public static TimeCountingMethod timeCountingMethod;
+    public static float elapsedTime;
     static bool gameEnd;
     static int timeIncrease;
     
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         }
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
-
+        elapsedTime = 0;
         gameEnd = false;
         timeIncrease = 1;
         
