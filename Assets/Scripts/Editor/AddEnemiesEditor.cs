@@ -41,7 +41,8 @@ public class AddEnemiesEditor : Editor {
 
         DrawButtonsToDeleteEnemies();
         DrawPaths();
-        
+        DrawButtonsDeletePaths();
+
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
@@ -59,6 +60,30 @@ public class AddEnemiesEditor : Editor {
             }
         }
     }
+    
+    void DrawButtonsDeletePaths() {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        List<Transform> listOfChilds;
+        Transform connectedObject;
+        Transform init = null;
+
+        for (int i = 0 ; i < enemiesList.Count; i++) {
+            listOfChilds = enemiesList[i].GetComponent<FollowPath>().GetAllChildsPath();
+            
+            if(listOfChilds == null)
+                continue;
+            
+            for (int j = 0 ; j < listOfChilds.Count; j++) {
+                
+                Handles.DrawSolidDisc(listOfChilds[j].transform.position, Vector3.up, 0.5f);    
+                
+                if (Handles.Button(listOfChilds[j].transform.position, Quaternion.Euler(90, 0,0),
+                    0.5f, 0.5f, Handles.CircleHandleCap)) {
+                    enemiesList[i].GetComponent<FollowPath>().DeleteOneChildOfPath(j);
+                }
+            }
+        }
+    }
 
     void DrawPaths() {
         List<GameObject> enemiesList = Target.GetEnemiesList();
@@ -66,22 +91,37 @@ public class AddEnemiesEditor : Editor {
         Transform previousPath = null;
         Transform connectedObject;
         Transform init = null;
+
         for (int i = 0 ; i < enemiesList.Count; i++) {
             listOfChilds = enemiesList[i].GetComponent<FollowPath>().GetAllChildsPath();
+            
             if(listOfChilds == null)
                 continue;
+            
             for (int j = 0 ; j < listOfChilds.Count; j++) {
-
+                
+                if(listOfChilds[j] == null)
+                    continue;
+                
                 connectedObject = listOfChilds[j];
+                Handles.DrawSolidDisc(listOfChilds[j].transform.position, Vector3.up, 0.5f);    
+                
+                if (Handles.Button(listOfChilds[j].transform.position, Quaternion.Euler(90, 0,0),
+                    0.5f, 0.5f, Handles.CircleHandleCap)) {
+                    enemiesList[i].GetComponent<FollowPath>().DeleteOneChildOfPath(j);
+                }
+                
                 if(j == 0) {
                     init = listOfChilds[j];
                     previousPath = listOfChilds[j];
                     continue;
-                    
                 }
+
                 else {
                     Handles.DrawLine(previousPath.position, connectedObject.position);
                 }
+                
+                
                 previousPath = listOfChilds[j];
             }
             Handles.DrawLine(previousPath.position, init.position);
