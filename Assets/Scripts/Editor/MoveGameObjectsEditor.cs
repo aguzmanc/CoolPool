@@ -76,6 +76,8 @@ public class MoveGameObjectsEditor : Editor {
         }
     }
 
+
+
     void OnSceneGUI() {
        DrawGizmos();
        // SceneView.RepaintAll();
