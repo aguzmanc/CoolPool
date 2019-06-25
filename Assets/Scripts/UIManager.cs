@@ -15,8 +15,11 @@ public class UIManager : MonoBehaviour
 
     UnityEngine.UI.Text timerText;
     Animator timerAnimations;
-
+    AudioSource timerSound;
+    
     public GameObject hook;
+    float sliderVolumeValue = 0.1f;
+    bool isBeeping = false;
 
     public static UIManager instance{
         get{
@@ -27,8 +30,9 @@ public class UIManager : MonoBehaviour
     void Awake() {
         ChargeFinishGameButtons();
 
-        timerText = GameObject.Find("TimerText").GetComponent<UnityEngine.UI.Text>();
-        timerAnimations = GameObject.Find("TimerText").GetComponent<Animator>();       
+        timerText = GameObject.Find("Timer").GetComponent<UnityEngine.UI.Text>();
+        timerAnimations = GameObject.Find("Timer").GetComponent<Animator>();  
+        timerSound =  GameObject.Find("Timer").GetComponent<AudioSource>();
     }
 
     void Start() {
@@ -36,10 +40,38 @@ public class UIManager : MonoBehaviour
     }
 
     void Update() {
-        string time = "5";
-        timerText.text = "Tiempo: ";
-        timerAnimations.SetBool("Less10Seconds", true);
-        // timerText.text = "Tiempo: " + GameManager.instance.GetElapsedTime();
+        float time = GameManager.instance.getElapsedTime();
+        time = Mathf.RoundToInt(time);
+        
+        if(time == 0) {
+            timerAnimations.enabled = false;
+        }
+        
+        if(GameManager.instance.isGameEnded()) {
+            StopSoundTimer();
+            StopAllCoroutines();
+            timerAnimations.SetBool("Less10Seconds", false);
+            return;
+        }
+
+        if(GameManager.instance.getTimeCountingMethod() == TimeCountingMethod.Temporized) {
+            if(GameManager.instance.getElapsedTime() < 10) {
+                if(isBeeping == false) {
+                    isBeeping = true;
+                    StartCoroutine(SoundBeep());
+                }
+
+                timerAnimations.SetBool("Less10Seconds", true);
+                timerText.text = "Tiempo: " + time.ToString();
+            }
+            else {
+                timerText.text = "Tiempo: " + time.ToString();
+            }
+        }
+        
+        else {
+            timerText.text = "Tiempo: " + time.ToString();
+        }
     }
 
     public void ShowVictoryOverLay() {
@@ -94,5 +126,19 @@ public class UIManager : MonoBehaviour
         backLevelButton = GameObject.Find("BackLevel").GetComponent<Animator>();
         repeatLevelButton = GameObject.Find("RepeatLevel").GetComponent<Animator>();
         nextLevelButton = GameObject.Find("NextLevel").GetComponent<Animator>();       
+    }
+
+    IEnumerator SoundBeep() {
+        while (true) {
+            
+            timerSound.volume = sliderVolumeValue;
+            timerSound.Play();
+            sliderVolumeValue = sliderVolumeValue + 0.1f;
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    void StopSoundTimer() {
+        timerSound.Stop();
     }
 }

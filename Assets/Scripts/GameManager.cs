@@ -34,7 +34,9 @@ public class GameManager : MonoBehaviour
         }
         _instance = this;
         DontDestroyOnLoad(this.gameObject);
-
+        if (timeCountingMethod == TimeCountingMethod.Timed){
+            elapsedTime = 0;
+        }
         gameEnd = false;
         timeIncrease = 1;
         
@@ -109,11 +111,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     bool TimeIsUp() {
         return elapsedTime <= Mathf.Epsilon && !gameEnd;
     }
 
-    
-}
+    public TimeCountingMethod getTimeCountingMethod() {
+        return _instance.timeCountingMethod;
+    }
 
+    public float getElapsedTime() {
+        return _instance.elapsedTime;
+    }
+
+    public bool isGameEnded() {
+        return gameEnd;
+    }
+}
