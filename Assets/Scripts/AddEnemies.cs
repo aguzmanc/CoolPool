@@ -16,12 +16,13 @@ public class AddEnemies : MonoBehaviour
     }
 
     public GameObject CreateEnemy(Vector3 position){
-        GameObject newEnemy = SafePrefabInstantiate(position, Quaternion.identity);
+        GameObject newEnemy = SafePrefabEnemyInstantiate(position, Quaternion.identity);
         return newEnemy;
     }
 
-    public GameObject SafePrefabInstantiate (Vector3 position, Quaternion rotation) {
+    public GameObject SafePrefabEnemyInstantiate (Vector3 position, Quaternion rotation) {
         
+        #if UNITY_EDITOR
         if (Application.isPlaying) {
             return GameObject.Instantiate(enemy, position, rotation);
         } 
@@ -34,16 +35,10 @@ public class AddEnemies : MonoBehaviour
             InsertEnemy(obj);
             return obj;
         }
+        #else
+        return Instantiate(reference);
+        #endif
     }
-
-    // public GameObject CreateEnemy(Vector3 pos) {
-    //     GameObject enemyCreated = Instantiate(enemy);
-    //     enemyCreated.transform.position = pos;
-    //     enemyCreated.transform.parent = transform.parent;
-    //     InsertEnemy(enemyCreated);
-    //     enemyCreated.transform.parent = gameObject.transform;
-    //     return enemyCreated;
-    // }
 
     public List<GameObject> GetEnemiesList() {
         return listEnemies;
