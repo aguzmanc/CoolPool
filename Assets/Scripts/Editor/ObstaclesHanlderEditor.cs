@@ -79,6 +79,9 @@ public class ObstaclesHandlerEditor : Editor {
             }
             Target.scalePlaceholder = newPos;
 
+            // éste era el error! no había que usar TransformPoint!
+            // solo era álgebra vectorial
+            // (ver imagen [wtf con scale.png] en la raíz del proyecto)
             thingBeingMoved.transform.localScale =
                 Target.scalePlaceholder - thingBeingMoved.transform.position;
         }
