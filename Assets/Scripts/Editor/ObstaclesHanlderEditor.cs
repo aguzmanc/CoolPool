@@ -10,13 +10,14 @@ public class ObstaclesHandlerEditor : Editor {
     ObstaclesHandler Target { get => (ObstaclesHandler) target; }
     static bool isObstacleButtonPressed;
     static bool isEditObstaclePressed;
-    static GameObject[] obstaclesList;
+
+    // para poder añadir fácilmente los obstáculos que se crean en el futuro
+    static List<GameObject> obstaclesList = new List<GameObject>();
     public static GameObject thingBeingMoved;
-    static Vector3 scalePos;
 
 
     void OnEnable () {
-       obstaclesList = GameObject.FindGameObjectsWithTag("Obstacle");
+        obstaclesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Obstacle"));
     }
     public override void OnInspectorGUI () {
         DrawDefaultInspector();
@@ -37,14 +38,18 @@ public class ObstaclesHandlerEditor : Editor {
                 if (Event.current.type == EventType.MouseDown) {
                     GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
                     Event.current.Use();
-                    Undo.RegisterCreatedObjectUndo( SafePrefabInstantiate(Target.GetPrefabReference(), hitInfo.point), "Se creo un obstaculo");
+                    GameObject created =
+                        SafePrefabInstantiate(Target.GetPrefabReference(),
+                                              hitInfo.point);
+                    obstaclesList.Add(created);
+                    Undo.RegisterCreatedObjectUndo(created, "Se creo un obstaculo");
                 }
             }
         }
         if (isEditObstaclePressed) {
             foreach (GameObject obstacle in obstaclesList) {
                 Color aux = Handles.color;
-                Handles.color = new Color(1, 0, 0, 1);  
+                Handles.color = new Color(1, 0, 0, 1);
                 if (Handles.Button(obstacle.transform.position, Quaternion.Euler(90, 0, 0), 1.5f, 1.5f, Handles.RectangleHandleCap)){
                     thingBeingMoved = obstacle;
                 }
@@ -53,35 +58,39 @@ public class ObstaclesHandlerEditor : Editor {
         }
 
         if (thingBeingMoved) {
-            thingBeingMoved.transform.position = Handles.PositionHandle(thingBeingMoved.transform.position, Quaternion.identity);
-            scalePos = Handles.PositionHandle(scalePos, Quaternion.identity);
-            thingBeingMoved.transform.localScale = // -thingBeingMoved.transform.InverseTransformPoint(scalePos);
-                Handles.PositionHandle(thingBeingMoved.transform.localScale + thingBeingMoved.transform.position, Quaternion.identity) - thingBeingMoved.transform.position;
+            // posición
+            Vector3 newPos = Handles.PositionHandle(thingBeingMoved.transform.position,
+                                                    Quaternion.identity);
+            if (newPos != thingBeingMoved.transform.position) {
+                Undo.RecordObject(thingBeingMoved, "obstáculo fue movido");
+            }
+            thingBeingMoved.transform.position = newPos;
 
-                // Vector3 newPosition = Handles.PositionHandle(thingBeingMoved.transform.position, Quaternion.identity);
-                // Vector3 Pos = Vector3.zero; //Guardar en el script o algo :¨v
-                // Pos.y = thingBeingMoved.transform.position.y;
-                // Vector3 newPosition2 = Handles.PositionHandle(Pos, Quaternion.identity);
-                // //if (newPosition2 != Pos) {
-                //     // Undo.RecordObject(thingBeingMoved, "algo se movió!");
-                    
-                //     thingBeingMoved.transform.position = newPosition;
-                //     thingBeingMoved.transform.localScale = thingBeingMoved.transform.InverseTransformPoint(Pos);// newPosition2 - Pos;
-                //     Vector3 a = thingBeingMoved.transform.localScale;
-                //     thingBeingMoved.transform.localScale = new Vector3(a.x, 1, a.z);
-                    
-                // }
-                
+            // escala
+            // (ver ObstaclesHandler línea 7)
+            // si fuera una propiedad del script Obstacle.cs, se le llamaría desde aquí
+            // así: thingBeingMoved.GetComponent<Obstacle>.scalePlaceHolder;
+            newPos = Handles.PositionHandle(Target.scalePlaceholder,
+                                            Quaternion.identity);
+            if (newPos != Target.scalePlaceholder) {
+                Undo.RecordObject(Target.gameObject, "scale placeholder fue movido"); // porque cambiamos una propiedad de Target
+                // si fuera una propiedad de Obstacle.cs, en vez de Target.gameObject
+                // habría que guardar a thingBeingMoved!
+            }
+            Target.scalePlaceholder = newPos;
+
+            thingBeingMoved.transform.localScale =
+                Target.scalePlaceholder - thingBeingMoved.transform.position;
         }
 
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
         }
-        
-        
-        
-        
+
+
+
+
     }
 
 
@@ -91,7 +100,7 @@ public class ObstaclesHandlerEditor : Editor {
     }
 
 
-    public GameObject SafePrefabInstantiate (GameObject reference, 
+    public GameObject SafePrefabInstantiate (GameObject reference,
                                                     Vector3 position,
                                                     Quaternion rotation) {
         if (Application.isPlaying) {
