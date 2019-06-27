@@ -12,17 +12,42 @@ public class AddEnemiesEditor : Editor {
     static bool isPathDeleteButtonPressed;
     static bool isPathMoveButtonPressed;
     static bool isEnemyDeleteButtonPressed;
-    
+    static List<bool> isAddPointToPathEnemyPressed = new List<bool>();
+
+    public void OnEnable() {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        
+        int enemiesListLength = enemiesList.Count;
+        int enemiesPointPathButtonsLength = isAddPointToPathEnemyPressed.Count;
+        if((enemiesListLength - enemiesPointPathButtonsLength) > 0) {
+            for(int i = 0; i < (enemiesListLength - enemiesPointPathButtonsLength); i++) {
+                isAddPointToPathEnemyPressed.Add(false);
+            }
+        }
+        
+    }
+
     public override void OnInspectorGUI () {
         DrawDefaultInspector();
 
         isEnemyCreateButtonPressed = GUILayout.Toggle(isEnemyCreateButtonPressed ,"Crear enemigo", "Button");
-        isPathDeleteButtonPressed = GUILayout.Toggle(isPathDeleteButtonPressed ,"Eliminar puntos de los paths", "Button");
-        isPathMoveButtonPressed = GUILayout.Toggle(isPathMoveButtonPressed ,"Mover puntos de los paths", "Button");
         isEnemyDeleteButtonPressed = GUILayout.Toggle(isEnemyDeleteButtonPressed ,"Eliminar enemigos", "Button");
+        isPathMoveButtonPressed = GUILayout.Toggle(isPathMoveButtonPressed ,"Mover puntos de los paths", "Button");
+        isPathDeleteButtonPressed = GUILayout.Toggle(isPathDeleteButtonPressed ,"Eliminar puntos de los paths", "Button");
+        
+        DrawButtonsToAddPointsToPathEnemies();
+
         if (GUI.changed && !Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
+        }
+        
+    }
+
+    void DrawButtonsToAddPointsToPathEnemies() {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        for(int i = 0; i < enemiesList.Count; i++) {
+            isAddPointToPathEnemyPressed[i] = GUILayout.Toggle(isAddPointToPathEnemyPressed[i], "Agregar puntos al path del enemigo: " + (i + 1), "Button");
         }
     }
 
@@ -32,7 +57,7 @@ public class AddEnemiesEditor : Editor {
 
     void OnSceneGUI () {
         updateListEnemies();
-        DrawPaths();
+        DrawLinesPaths();
         RaycastHit hitInfo;
         Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         
@@ -42,9 +67,12 @@ public class AddEnemiesEditor : Editor {
                     GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
                     Event.current.Use();
                     Undo.RegisterCreatedObjectUndo(Target.CreateEnemy(hitInfo.point), "Se creo un enemigo");
+                    isAddPointToPathEnemyPressed.Add(false);
                 }
             }
         }
+
+        AddPointsToPathByEnemy();
 
         if(isPathDeleteButtonPressed) {
             DrawButtonsToDeletePathEnemies();
@@ -57,13 +85,58 @@ public class AddEnemiesEditor : Editor {
         if(isPathMoveButtonPressed) {
             DrawButtonsToMovePathEnemies();
         }
-        
+
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
         }
     }
 
+    void AddPointsToPathByEnemy() {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        RaycastHit hitInfo;
+        Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        Handles.color = Color.black;
+        for(int i = 0; i < isAddPointToPathEnemyPressed.Count; i++) {
+            if(isAddPointToPathEnemyPressed[i]) {
+                DrawPointsToThePathEnemy(i);
+
+                if (Physics.Raycast(worldRay, out hitInfo)) {
+
+                    if (Event.current.type == EventType.MouseDown) {
+                        
+                        GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
+                        Event.current.Use();
+                        List<Transform> listOfChilds = enemiesList[i].GetComponent<FollowPath>().GetAllChildsPath();
+                        
+                        if(listOfChilds == null) {
+                            enemiesList[i].GetComponent<FollowPath>().CreatePath();
+                            Undo.RegisterCreatedObjectUndo(enemiesList[i].GetComponent<FollowPath>().AddPointToPath(hitInfo.point), "Se agrego un punto al path");
+                        }
+
+                        else {
+                            Undo.RegisterCreatedObjectUndo(enemiesList[i].GetComponent<FollowPath>().AddPointToPath(hitInfo.point), "Se agrego un punto al path");
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    void DrawPointsToThePathEnemy(int index) {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        List<Transform> listOfChilds;
+        listOfChilds = enemiesList[index].GetComponent<FollowPath>().GetAllChildsPath();
+        
+        Handles.DrawSolidDisc(enemiesList[index].transform.position, Vector3.up, 0.5f);
+        if(listOfChilds == null)
+            return;
+
+        for(int i = 0; i < listOfChilds.Count; i++) {
+            Handles.DrawSolidDisc(listOfChilds[i].transform.position, Vector3.up, 0.5f);
+        }
+    }
     void DrawButtonsToMovePathEnemies() {
         Handles.color = new Color(0, 1, 0, 1);
         List<GameObject> enemiesList = Target.GetEnemiesList();
@@ -74,8 +147,7 @@ public class AddEnemiesEditor : Editor {
                 continue;
 
             for (int j = 0 ; j < listOfChilds.Count; j++) {
-                Handles.DrawSolidDisc(listOfChilds[j].transform.position, Vector3.up, 0.5f);        
-                // Vector3 newPosition = Handles.PositionHandle(listOfChilds[j].transform.position, Quaternion.identity);
+                Handles.DrawSolidDisc(listOfChilds[j].transform.position, Vector3.up, 0.5f);
                 Vector3 newPosition = Handles.FreeMoveHandle(listOfChilds[j].transform.position, Quaternion.identity, 0.5f,Vector3.up, 
                                                             Handles.CircleHandleCap);
                 
@@ -119,7 +191,7 @@ public class AddEnemiesEditor : Editor {
         }
     }
 
-    void DrawPaths() {
+    void DrawLinesPaths() {
         Handles.color = Color.black;
         List<GameObject> enemiesList = Target.GetEnemiesList();
         List<Transform> listOfChilds;
@@ -127,10 +199,11 @@ public class AddEnemiesEditor : Editor {
         Transform connectedObject;
         Transform init = null;
 
+        
         for (int i = 0 ; i < enemiesList.Count; i++) {
             listOfChilds = enemiesList[i].GetComponent<FollowPath>().GetAllChildsPath();
             
-            if(listOfChilds == null)
+            if(listOfChilds == null || listOfChilds.Count < 2)
                 continue;
             
             for (int j = 0 ; j < listOfChilds.Count; j++) {
