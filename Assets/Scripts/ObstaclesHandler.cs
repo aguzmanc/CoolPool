@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class ObstaclesHandler : MonoBehaviour {
     // ésto de aquí debería ser una propiedad de algún script en el obstáculo...
-    public Vector3 scalePlaceholder; 
+    //public Vector3 scalePlaceholder; 
     public GameObject prototype;
     public GameObject CreateObstacle(Vector3 pos) {
         GameObject created = Instantiate(prototype);

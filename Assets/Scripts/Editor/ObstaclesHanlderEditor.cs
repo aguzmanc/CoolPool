@@ -52,38 +52,29 @@ public class ObstaclesHandlerEditor : Editor {
                 Handles.color = new Color(1, 0, 0, 1);
                 if (Handles.Button(obstacle.transform.position, Quaternion.Euler(90, 0, 0), 1.5f, 1.5f, Handles.RectangleHandleCap)){
                     thingBeingMoved = obstacle;
+                    thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder = thingBeingMoved.transform.position + thingBeingMoved.transform.localScale;
                 }
             }
 
         }
 
         if (thingBeingMoved) {
-            // posición
             Vector3 newPos = Handles.PositionHandle(thingBeingMoved.transform.position,
                                                     Quaternion.identity);
             if (newPos != thingBeingMoved.transform.position) {
                 Undo.RecordObject(thingBeingMoved, "obstáculo fue movido");
             }
             thingBeingMoved.transform.position = newPos;
-
-            // escala
-            // (ver ObstaclesHandler línea 7)
-            // si fuera una propiedad del script Obstacle.cs, se le llamaría desde aquí
-            // así: thingBeingMoved.GetComponent<Obstacle>.scalePlaceHolder;
-            newPos = Handles.PositionHandle(Target.scalePlaceholder,
+            newPos = Handles.PositionHandle(thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder,
                                             Quaternion.identity);
-            if (newPos != Target.scalePlaceholder) {
-                Undo.RecordObject(Target.gameObject, "scale placeholder fue movido"); // porque cambiamos una propiedad de Target
+            if (newPos != thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder) {
+                Undo.RecordObject(thingBeingMoved, "scale placeholder fue movido"); // porque cambiamos una propiedad de Target
                 // si fuera una propiedad de Obstacle.cs, en vez de Target.gameObject
                 // habría que guardar a thingBeingMoved!
             }
-            Target.scalePlaceholder = newPos;
-
-            // éste era el error! no había que usar TransformPoint!
-            // solo era álgebra vectorial
-            // (ver imagen [wtf con scale.png] en la raíz del proyecto)
+            thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder = newPos;
             thingBeingMoved.transform.localScale =
-                Target.scalePlaceholder - thingBeingMoved.transform.position;
+                thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder - thingBeingMoved.transform.position;
         }
 
         if (GUI.changed && ! Application.isPlaying) {
