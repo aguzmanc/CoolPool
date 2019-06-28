@@ -147,6 +147,24 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!1 &881624528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3089192007623830012, guid: 11f913f272570475da546d44e48a179c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3089192009116658469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &881624533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881624528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a66109b4e6740dca86cc8420f91ff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1141343076 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3089192007852505019, guid: 11f913f272570475da546d44e48a179c,
@@ -370,15 +388,10 @@ PrefabInstance:
       propertyPath: m_Type
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
+    - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
-      propertyPath: elapsedTime
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: timeCountingMethod
-      value: 0
+      propertyPath: m_LocalPosition.x
+      value: 7.0028768
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3089192007852504964, guid: 11f913f272570475da546d44e48a179c, type: 3}
