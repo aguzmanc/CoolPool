@@ -10,18 +10,13 @@ public class MoveGameObjectsEditor : Editor {
     MoveGameObjects Target { get => (MoveGameObjects) target; }
     static List<Transform> movableObjects;
     static Dictionary<string, bool> buttonsState;
-    static bool plane;
-    static Transform planePos;
-    Tool LastTool = Tool.None;
-
+    
     public void OnEnable() {
         movableObjects = new List<Transform>();
         buttonsState = new Dictionary<string, bool>();
-        ChargeAllTransforms(Target.transform);
+
+        ChargeAllChilds(Target.transform);
         chargeDictionary();
-        plane = false;
-        LastTool = Tools.current;
-        Tools.current = Tool.None;
     }
 
     void chargeDictionary() {
@@ -31,10 +26,12 @@ public class MoveGameObjectsEditor : Editor {
     }
 
     bool chargeButtons() {
-        bool newplane = GUILayout.Toggle(plane, "Mover Plane", "Button");
-        plane = newplane;
+        bool changed = false;
         for (int i = 0 ; i < movableObjects.Count; i++) {
             bool newValue = GUILayout.Toggle(buttonsState[movableObjects[i].name], "Mover " + movableObjects[i].name, "Button");
+            if (newValue != buttonsState[movableObjects[i].name]) {
+                changed = true;
+            }
             buttonsState[movableObjects[i].name] = newValue;
         }
         return true;
@@ -52,8 +49,6 @@ public class MoveGameObjectsEditor : Editor {
     public void OnDisable() {
         movableObjects = null;
         buttonsState = null;
-        planePos = null;
-         Tools.current = LastTool;
     }
 
     void DrawGizmos() {
@@ -66,17 +61,7 @@ public class MoveGameObjectsEditor : Editor {
                 }
             }
         }
-        if (plane){
-            //Vector3 newPosition = Handles.PositionHandle(planePos.position, Quaternion.identity);
-            Vector3 newPosition = Handles.ScaleHandle(planePos.localScale, Vector3.zero, Quaternion.identity, 5);
-            if (newPosition != planePos.localScale) {
-                Undo.RecordObject(planePos, "algo se movió!");
-                planePos.localScale = newPosition;
-            }
-        }
     }
-
-
 
     void OnSceneGUI() {
        DrawGizmos();
@@ -85,22 +70,18 @@ public class MoveGameObjectsEditor : Editor {
     
     public override void OnInspectorGUI () {
         DrawDefaultInspector();
-        
         if (chargeButtons()) {
             SceneView.RepaintAll();
         }
     }
 
-    void ChargeAllTransforms(Transform transform) {    
+    void ChargeAllChilds(Transform transform) {    
         for (int i= 0; i < transform.childCount; i++){
-            ChargeAllTransforms(transform.GetChild(i));
+            ChargeAllChilds(transform.GetChild(i));
         }
 
         if (transform.GetComponent<IMoveObjects>() != null){
             movableObjects.Add(transform);
-        }
-        if (transform.GetComponent<Plane>() != null){
-            planePos = transform;
         }
     }
 }

@@ -12,21 +12,20 @@ public class PushBall : MonoBehaviour, IMoveObjects
     }
 
 
+    void OnCollisionEnter(Collision other)
+    {   Transform c = other.gameObject.transform;
+        if (c.GetComponent<FollowTarget>()) {
+            Vector3 direction = transform.position - c.parent.transform.position;
+            direction.y = 0;
+            Vector3 position = other.GetContact(0).point;
+            position.y = 0;
+            ballRigidbody.AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
+        }
+    }
     void OnTriggerEnter(Collider other)
     {
         if(other.transform.GetComponent<Goal>()) {
            GameManager.TriggerVictory();
         }
     }
-
-    public void hitBall(Collision collision) {
-        Vector3 direction = collision.transform.position - transform.parent.position;
-        direction.y = 0;
-        Vector3 position = collision.GetContact(0).point;
-        position.y = 0;
-        float strength = collision.transform.GetComponent<PushBall>().strength;
-        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
-    }
-
-    
 }

@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
     public static void  Defeat() {
         UIManager.instance.ShowGameEndedOverlay(GameEndings.GameOver); 
         gameEnd = true;
