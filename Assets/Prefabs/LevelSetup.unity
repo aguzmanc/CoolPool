@@ -388,10 +388,15 @@ PrefabInstance:
       propertyPath: m_Type
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
+    - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 7.0028768
+      propertyPath: elapsedTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
+        type: 3}
+      propertyPath: timeCountingMethod
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3089192007852504964, guid: 11f913f272570475da546d44e48a179c, type: 3}
