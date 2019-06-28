@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Collisions : MonoBehaviour
 {
-    
+
     public GameObject hook;
     LineRenderer hookLineRenderer;
 
@@ -15,7 +15,7 @@ public class Collisions : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter(Collider collider) {
@@ -28,35 +28,27 @@ public class Collisions : MonoBehaviour
         if(isBlockCube(collision)) {
             hook.GetComponent<Hook>().stopMovement();
             hook.GetComponent<Hook>().hookedWithBlockCube();
-            hookLineRenderer.SetPosition(1, 
+            hookLineRenderer.SetPosition(1,
                                         hookLineRenderer.transform.InverseTransformPoint(
                                         collision.contacts[0].point));
-            
+
             transform.parent.GetComponent<Hook>().setTargetCollision(collision.transform);
         }
-        if (isBall(collision)) {
-            hitBall(collision);
-            resetHook(); 
+        PushBall bola = isBall(collision);
+        if (bola) {
+            bola.hitBall(collision);
+            this.resetHook();
         }
     }
-    
+
     bool isBlockCube(Collision collision) {
         return collision.gameObject.GetComponent<BlockCube>();
     }
-    
-    bool isBall(Collision collision) {
+
+    PushBall isBall(Collision collision) {
         return collision.transform.GetComponent<PushBall>();
     }
 
-    void hitBall(Collision collision) {
-        Vector3 direction = collision.transform.position - transform.parent.position;
-        direction.y = 0;
-        Vector3 position = collision.GetContact(0).point;
-        position.y = 0;
-        float strength = collision.transform.GetComponent<PushBall>().strength;
-        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
-    }
-    
     void resetHook() {
         transform.parent.GetComponent<Hook>().resetHookPropierties();
     }

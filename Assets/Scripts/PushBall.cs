@@ -17,5 +17,15 @@ public class PushBall : MonoBehaviour {
            GameManager.TriggerVictory();
         }
     }
+
+    public void hitBall(Collision collision) {
+        Vector3 direction = collision.transform.position - transform.parent.position;
+        direction.y = 0;
+        Vector3 position = collision.GetContact(0).point;
+        position.y = 0;
+        float strength = collision.transform.GetComponent<PushBall>().strength;
+        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
+    }
+
     
 }
