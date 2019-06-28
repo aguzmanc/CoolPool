@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
         gameEnd = true;
         timeIncrease = 0;
-        ConffetiGunsManager.instance.activateConffetiGuns();
+
     }
 
     public static void  Defeat() {
@@ -111,23 +111,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     bool TimeIsUp() {
         return elapsedTime <= Mathf.Epsilon && !gameEnd;
     }
-
 
     public TimeCountingMethod getTimeCountingMethod() {
         return _instance.timeCountingMethod;
     }
 
-
     public float getElapsedTime() {
         return _instance.elapsedTime;
     }
 
-
-    
-    
+    public bool isGameEnded() {
+        return gameEnd;
+    }
 }
-
