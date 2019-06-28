@@ -86,4 +86,20 @@ public class FollowPath : MonoBehaviour
         listOfChilds = GetAllChildsPath();
         Object.DestroyImmediate(listOfChilds[index].gameObject);
     }
+
+    public GameObject AddPointToPath(Vector3 pos) {
+        GameObject pointCreated = new GameObject("PathPoint");
+        pointCreated.transform.position = pos;
+        pointCreated.transform.parent = path.parent;
+        pointCreated.transform.parent = path.transform;
+        return pointCreated;
+    }
+
+    public void CreatePath() {
+        GameObject pointCreated = new GameObject("Path");
+        path = pointCreated.transform;
+        pointCreated.transform.position = Vector3.zero;
+        pointCreated.transform.parent = path.parent;
+        pointCreated.transform.parent = path.transform;
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine;
+using UnityEditor;
 
 public class AddEnemies : MonoBehaviour
 {
@@ -13,13 +15,29 @@ public class AddEnemies : MonoBehaviour
     void Start(){
     }
 
-    public GameObject CreateEnemy(Vector3 pos) {
-        GameObject enemyCreated = Instantiate(enemy);
-        enemyCreated.transform.position = pos;
-        enemyCreated.transform.parent = transform.parent;
-        InsertEnemy(enemyCreated);
-        enemyCreated.transform.parent = gameObject.transform;
-        return enemyCreated;
+    public GameObject CreateEnemy(Vector3 position){
+        GameObject newEnemy = SafePrefabEnemyInstantiate(position, Quaternion.identity);
+        return newEnemy;
+    }
+
+    public GameObject SafePrefabEnemyInstantiate (Vector3 position, Quaternion rotation) {
+        
+        #if UNITY_EDITOR
+        if (Application.isPlaying) {
+            return GameObject.Instantiate(enemy, position, rotation);
+        } 
+        
+        else {
+            GameObject obj = PrefabUtility.InstantiatePrefab(enemy) as GameObject;
+            obj.transform.position = position;
+            obj.transform.rotation = rotation;
+            obj.transform.parent = gameObject.transform;
+            InsertEnemy(obj);
+            return obj;
+        }
+        #else
+        return Instantiate(reference);
+        #endif
     }
 
     public List<GameObject> GetEnemiesList() {
