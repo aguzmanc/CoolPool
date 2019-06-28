@@ -89,10 +89,11 @@ public class GameManager : MonoBehaviour
 
     public static void TriggerVictory() {
         UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
+
+        ConffetiGunsManager.instance.activateConffetiGuns();
         gameEnd = true;
         timeIncrease = 0;
-
-    }
+    }    
 
     public static void  Defeat() {
         UIManager.instance.ShowGameEndedOverlay(GameEndings.GameOver); 
