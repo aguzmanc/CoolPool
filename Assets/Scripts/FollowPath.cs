@@ -69,12 +69,21 @@ public class FollowPath : MonoBehaviour
 
     public List<Transform> GetAllChildsPath() {
         List<Transform> listOfChilds = new List<Transform>();
+        
         if(path == null) {
             return null;
         }
+
         foreach (Transform child in path) {
               listOfChilds.Add(child);
         }
+
         return listOfChilds;
+    }
+
+    public void DeleteOneChildOfPath(int index) {
+        List<Transform> listOfChilds = new List<Transform>();
+        listOfChilds = GetAllChildsPath();
+        Object.DestroyImmediate(listOfChilds[index].gameObject);
     }
 }

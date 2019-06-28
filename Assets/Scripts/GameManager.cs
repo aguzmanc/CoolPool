@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
         gameEnd = true;
         timeIncrease = 0;
-        ConffetiGunsManager.instance.activateConffetiGuns();
+
     }
 
 
