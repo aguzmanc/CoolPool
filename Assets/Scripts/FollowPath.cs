@@ -5,38 +5,38 @@ using UnityEngine;
 public class FollowPath : MonoBehaviour
 {
     public float speed = 5;
-    public Transform path;
+    public Transform path = null;
     int child_number = 0;
     Vector3 target;
     int nChilds;
 
-    void Start()
-    {
-        nChilds = path.childCount - 1;
-        if (!IsSpeedPositive()){
-            child_number = nChilds;
+    void Start() {
+        if(path) {
+            nChilds = path.childCount - 1;
+            if (!IsSpeedPositive()){
+                child_number = nChilds;
+            }
+            findTarget();
         }
-        findTarget();
-        
     }
 
 
-    void Update()
-    {
-        float deltaDistance = Time.deltaTime * Mathf.Abs(speed);
-        transform.position =
-            Vector3.MoveTowards(transform.position,
-                                target,
-                                deltaDistance);
-        if (transform.position == target){
-            findTarget();
+    void Update() {
+        if(path) {
+            float deltaDistance = Time.deltaTime * Mathf.Abs(speed);
+            transform.position =
+                Vector3.MoveTowards(transform.position,
+                                    target,
+                                    deltaDistance);
+            if (transform.position == target){
+                findTarget();
+            }
         }
     }
 
     
     void findTarget(){
         target = path.GetChild(child_number).transform.position;
-        // child_number = (child_number + (IsSpeedPositive()? 1: -1) + nChilds) % nChilds;
         if (IsSpeedPositive()){
             FindPositiveChild();
         }
@@ -65,5 +65,25 @@ public class FollowPath : MonoBehaviour
 
     bool IsSpeedPositive(){
         return speed > 0;
+    }
+
+    public List<Transform> GetAllChildsPath() {
+        List<Transform> listOfChilds = new List<Transform>();
+        
+        if(path == null) {
+            return null;
+        }
+
+        foreach (Transform child in path) {
+              listOfChilds.Add(child);
+        }
+
+        return listOfChilds;
+    }
+
+    public void DeleteOneChildOfPath(int index) {
+        List<Transform> listOfChilds = new List<Transform>();
+        listOfChilds = GetAllChildsPath();
+        Object.DestroyImmediate(listOfChilds[index].gameObject);
     }
 }
