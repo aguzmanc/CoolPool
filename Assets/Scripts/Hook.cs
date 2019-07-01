@@ -115,4 +115,5 @@ public class Hook : MonoBehaviour
         hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
         zFinalPosition+= speed * Time.deltaTime;
     }
+
 }
