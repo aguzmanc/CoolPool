@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3089192009489218320}
   - component: {fileID: 9174924361626121229}
   - component: {fileID: 5126010221755946613}
+  - component: {fileID: 7180450653947891746}
   m_Layer: 0
   m_Name: LevelSetup
   m_TagString: Untagged
@@ -63,6 +64,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 6880466008312499865, guid: 6169ff350760d482a86ccd7349b82f7c, type: 3}
   listEnemies: []
+--- !u!114 &7180450653947891746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3089192009489218321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e09f01762b64469a23328614744dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prototype: {fileID: 2809499360381995673, guid: 9e7a176d2dc294f9ba9a2d41ae51b557,
+    type: 3}
 --- !u!1001 &244469425146523173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -480,11 +495,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3089192009489218320}
     m_Modifications:
-    - target: {fileID: 6667642344111251007, guid: b9ea73b41129649d8952207dc76efdcd,
-        type: 3}
-      propertyPath: m_Name
-      value: MultipleConffetiGunsPrefab
-      objectReference: {fileID: 0}
     - target: {fileID: 6667642344111250976, guid: b9ea73b41129649d8952207dc76efdcd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -539,6 +549,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667642344111251007, guid: b9ea73b41129649d8952207dc76efdcd,
+        type: 3}
+      propertyPath: m_Name
+      value: MultipleConffetiGunsPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9ea73b41129649d8952207dc76efdcd, type: 3}
