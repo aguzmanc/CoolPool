@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3089192009489218320}
   - component: {fileID: 9174924361626121229}
-  - component: {fileID: 5126010221755946613}
+  - component: {fileID: 1239214364043851865}
   m_Layer: 0
   m_Name: LevelSetup
   m_TagString: Untagged
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db330a26126d4d5a9d789368781ca0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5126010221755946613
+--- !u!114 &1239214364043851865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,11 +58,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3089192009489218321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6eaf4998e1d4cb184229dcc8ce4025, type: 3}
+  m_Script: {fileID: 11500000, guid: 97e09f01762b64469a23328614744dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 6880466008312499865, guid: 6169ff350760d482a86ccd7349b82f7c, type: 3}
-  listEnemies: []
+  prototype: {fileID: 2809499360381995673, guid: 9e7a176d2dc294f9ba9a2d41ae51b557,
+    type: 3}
 --- !u!1001 &244469425146523173
 PrefabInstance:
   m_ObjectHideFlags: 0
