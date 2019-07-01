@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [CustomEditor(typeof(AddEnemies))]
 public class AddEnemiesEditor : Editor {
@@ -12,8 +13,12 @@ public class AddEnemiesEditor : Editor {
     static bool isPathDeleteButtonPressed;
     static bool isPathMoveButtonPressed;
     static bool isEnemyDeleteButtonPressed;
+    static List<bool> optionsInspector = new List<bool>();
     static List<bool> isAddPointToPathEnemyPressed = new List<bool>();
+    static int courrentEnemy = -1;
 
+    static int toolbarInt = 0;
+    
     public void OnEnable() {
         List<GameObject> enemiesList = Target.GetEnemiesList();
         
@@ -24,7 +29,7 @@ public class AddEnemiesEditor : Editor {
                 isAddPointToPathEnemyPressed.Add(false);
             }
         }
-        
+
     }
 
     public override void OnInspectorGUI () {
@@ -62,6 +67,9 @@ public class AddEnemiesEditor : Editor {
         Ray worldRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         
         if(isEnemyCreateButtonPressed) {
+            DisableAllButtonsInspectorOptions();
+            DisableAllButtonsInspectorEnemies();
+            isEnemyCreateButtonPressed = true;
             if (Physics.Raycast(worldRay, out hitInfo)) {
                 if (Event.current.type == EventType.MouseDown) {
                     GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
@@ -72,19 +80,28 @@ public class AddEnemiesEditor : Editor {
             }
         }
 
-        AddPointsToPathByEnemy();
-
         if(isPathDeleteButtonPressed) {
+            DisableAllButtonsInspectorOptions();
+            DisableAllButtonsInspectorEnemies();
+            isPathDeleteButtonPressed = true;
             DrawButtonsToDeletePathEnemies();
         }
 
         if(isEnemyDeleteButtonPressed) {
+            DisableAllButtonsInspectorOptions();
+            DisableAllButtonsInspectorEnemies();
+            isEnemyDeleteButtonPressed = true;
             DrawButtonsToDeleteEnemies();
         }
         
         if(isPathMoveButtonPressed) {
+            DisableAllButtonsInspectorOptions();
+            DisableAllButtonsInspectorEnemies();
+            isPathMoveButtonPressed = true;
             DrawButtonsToMovePathEnemies();
         }
+
+        AddPointsToPathByEnemy();
 
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
@@ -100,7 +117,6 @@ public class AddEnemiesEditor : Editor {
         for(int i = 0; i < isAddPointToPathEnemyPressed.Count; i++) {
             if(isAddPointToPathEnemyPressed[i]) {
                 DrawPointsToThePathEnemy(i);
-
                 if (Physics.Raycast(worldRay, out hitInfo)) {
 
                     if (Event.current.type == EventType.MouseDown) {
@@ -137,6 +153,7 @@ public class AddEnemiesEditor : Editor {
             Handles.DrawSolidDisc(listOfChilds[i].transform.position, Vector3.up, 0.5f);
         }
     }
+
     void DrawButtonsToMovePathEnemies() {
         Handles.color = new Color(0, 1, 0, 1);
         List<GameObject> enemiesList = Target.GetEnemiesList();
@@ -225,6 +242,19 @@ public class AddEnemiesEditor : Editor {
                 previousPath = listOfChilds[j];
             }
             Handles.DrawLine(previousPath.position, init.position);
+        }
+    }
+
+    void DisableAllButtonsInspectorOptions() {
+        isEnemyCreateButtonPressed = false;
+        isPathDeleteButtonPressed = false;
+        isPathMoveButtonPressed = false;
+        isEnemyDeleteButtonPressed = false;
+    }
+
+    void DisableAllButtonsInspectorEnemies() {
+        for(int i = 0; i < isAddPointToPathEnemyPressed.Count; i++) {
+            isAddPointToPathEnemyPressed[i] = false;
         }
     }
 }
