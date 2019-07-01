@@ -5,7 +5,10 @@ using UnityEngine;
 public class AddEnemies : MonoBehaviour
 {
     public GameObject enemy;
-    static List<GameObject> listEnemies = new List<GameObject>();
+    public List<GameObject> listEnemies = new List<GameObject>();
+    
+    void OnEnable() {
+    }
     
     void Start(){
     }
@@ -15,10 +18,11 @@ public class AddEnemies : MonoBehaviour
         enemyCreated.transform.position = pos;
         enemyCreated.transform.parent = transform.parent;
         InsertEnemy(enemyCreated);
+        enemyCreated.transform.parent = gameObject.transform;
         return enemyCreated;
     }
 
-    public List<GameObject> getEnemiesList() {
+    public List<GameObject> GetEnemiesList() {
         return listEnemies;
     }
 

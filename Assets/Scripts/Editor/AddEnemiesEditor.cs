@@ -40,6 +40,7 @@ public class AddEnemiesEditor : Editor {
         }
 
         DrawButtonsToDeleteEnemies();
+        DrawPaths();
         
         if (GUI.changed && ! Application.isPlaying) {
             EditorUtility.SetDirty(Target);
@@ -49,14 +50,41 @@ public class AddEnemiesEditor : Editor {
 
     void DrawButtonsToDeleteEnemies() {
         Handles.color = new Color(1, 0, 0, 1);
-        List<GameObject> enemiesList = Target.getEnemiesList();
-        
+        List<GameObject> enemiesList = Target.GetEnemiesList();
         for(int i = 0; i < enemiesList.Count; i++) {
             Handles.DrawSolidDisc(enemiesList[i].transform.position, Vector3.up, 0.5f);    
             if (Handles.Button(enemiesList[i].transform.position, Quaternion.Euler(90, 0,0),
                 0.5f, 0.5f, Handles.CircleHandleCap)) {
                 Target.DestroyEnemy(enemiesList[i]);
             }
+        }
+    }
+
+    void DrawPaths() {
+        List<GameObject> enemiesList = Target.GetEnemiesList();
+        List<Transform> listOfChilds;
+        Transform previousPath = null;
+        Transform connectedObject;
+        Transform init = null;
+        for (int i = 0 ; i < enemiesList.Count; i++) {
+            listOfChilds = enemiesList[i].GetComponent<FollowPath>().GetAllChildsPath();
+            if(listOfChilds == null)
+                continue;
+            for (int j = 0 ; j < listOfChilds.Count; j++) {
+
+                connectedObject = listOfChilds[j];
+                if(j == 0) {
+                    init = listOfChilds[j];
+                    previousPath = listOfChilds[j];
+                    continue;
+                    
+                }
+                else {
+                    Handles.DrawLine(previousPath.position, connectedObject.position);
+                }
+                previousPath = listOfChilds[j];
+            }
+            Handles.DrawLine(previousPath.position, init.position);
         }
     }
 }
