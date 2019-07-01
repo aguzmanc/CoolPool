@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushBall : MonoBehaviour {
+public class PushBall : MonoBehaviour, IMoveObjects {
     public float strength = 30;
     Rigidbody ballRigidbody;
     void Awake()
