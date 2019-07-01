@@ -50,10 +50,14 @@ public class ObstaclesHandlerEditor : Editor {
             foreach (GameObject obstacle in obstaclesList) {
                 Color aux = Handles.color;
                 Handles.color = new Color(1, 0, 0, 1);
-                if (Handles.Button(obstacle.transform.position, Quaternion.Euler(90, 0, 0), 1.5f, 1.5f, Handles.RectangleHandleCap)){
-                    thingBeingMoved = obstacle;
-                    thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder = thingBeingMoved.transform.position + thingBeingMoved.transform.localScale;
+                if (thingBeingMoved != obstacle) {
+                    if (Handles.Button(obstacle.transform.position, Quaternion.Euler(90, 0, 0), 1.5f, 1.5f, Handles.RectangleHandleCap)){
+                        thingBeingMoved = obstacle;
+                        thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder = 
+                            thingBeingMoved.transform.position + thingBeingMoved.transform.localScale;
+                    }
                 }
+                
             }
 
         }
@@ -62,15 +66,14 @@ public class ObstaclesHandlerEditor : Editor {
             Vector3 newPos = Handles.PositionHandle(thingBeingMoved.transform.position,
                                                     Quaternion.identity);
             if (newPos != thingBeingMoved.transform.position) {
-                Undo.RecordObject(thingBeingMoved, "obstáculo fue movido");
+                Undo.RecordObject(thingBeingMoved.transform, "obstáculo fue movido");
             }
             thingBeingMoved.transform.position = newPos;
             newPos = Handles.PositionHandle(thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder,
                                             Quaternion.identity);
             if (newPos != thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder) {
-                Undo.RecordObject(thingBeingMoved, "scale placeholder fue movido"); // porque cambiamos una propiedad de Target
-                // si fuera una propiedad de Obstacle.cs, en vez de Target.gameObject
-                // habría que guardar a thingBeingMoved!
+                Undo.RecordObject(thingBeingMoved.GetComponent<Obstacle>(), "scale placeholder fue movido");
+                Undo.RecordObject(thingBeingMoved.transform, "obstáculo fue movido");
             }
             thingBeingMoved.GetComponent<Obstacle>().scalePlaceHolder = newPos;
             thingBeingMoved.transform.localScale =
@@ -81,9 +84,6 @@ public class ObstaclesHandlerEditor : Editor {
             EditorUtility.SetDirty(Target);
             EditorSceneManager.MarkSceneDirty(Target.gameObject.scene);
         }
-
-
-
 
     }
 
