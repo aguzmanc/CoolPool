@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goal : MonoBehaviour, IMoveObjects
-{
+public class MoveGameObjects : MonoBehaviour {
+
+   
 }

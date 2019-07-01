@@ -1715,7 +1715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2641d94f9cc040d59da19c8aa36ef66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
+  strength: 30
 --- !u!1 &2084388797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,6 +2012,11 @@ PrefabInstance:
       propertyPath: path
       value: 
       objectReference: {fileID: 920667792}
+    - target: {fileID: 8540667728433774604, guid: 6169ff350760d482a86ccd7349b82f7c,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 6169ff350760d482a86ccd7349b82f7c, type: 3}
