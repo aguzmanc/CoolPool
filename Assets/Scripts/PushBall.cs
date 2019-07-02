@@ -5,9 +5,14 @@ using UnityEngine;
 public class PushBall : MonoBehaviour, IMoveObjects {
     public float strength = 30;
     Rigidbody ballRigidbody;
+
+    AudioSource effectsSoundsBall;
+    public AudioClip ballImpactWithHookSound;
+    
     void Awake()
     {
         ballRigidbody = GetComponent<Rigidbody>();
+        effectsSoundsBall = GetComponent<AudioSource>();
     }
 
 
@@ -25,7 +30,11 @@ public class PushBall : MonoBehaviour, IMoveObjects {
         position.y = 0;
         float strength = collision.transform.GetComponent<PushBall>().strength;
         collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
+        ActivateImpactHookWithBall();
     }
 
-    
+    void ActivateImpactHookWithBall() {
+        effectsSoundsBall.clip = ballImpactWithHookSound;
+        effectsSoundsBall.Play();
+    }
 }
