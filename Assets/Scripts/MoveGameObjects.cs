@@ -2,7 +2,5 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveGameObjects : MonoBehaviour {
-
-   
+public class MoveGameObjects : MonoBehaviour {  
 }
