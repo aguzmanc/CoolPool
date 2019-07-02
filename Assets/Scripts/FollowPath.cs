@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class FollowPath : MonoBehaviour
 {
@@ -102,6 +101,5 @@ public class FollowPath : MonoBehaviour
         pointCreated.transform.position = Vector3.zero;
         pointCreated.transform.parent = path.parent;
         pointCreated.transform.parent = path.transform;
-        PrefabUtility.RecordPrefabInstancePropertyModifications(this);
     }
 }
