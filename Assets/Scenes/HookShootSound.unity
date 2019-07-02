@@ -189,6 +189,16 @@ PrefabInstance:
       propertyPath: timeCountingMethod
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3089192009525400398, guid: 11f913f272570475da546d44e48a179c,
+        type: 3}
+      propertyPath: hookSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 50d2e39f3bcea48e4b9a809cd49b2c01, type: 3}
+    - target: {fileID: 3089192009525400398, guid: 11f913f272570475da546d44e48a179c,
+        type: 3}
+      propertyPath: movePlayerSound
+      value: 
+      objectReference: {fileID: 8300000, guid: eade83897711f448cb9b103e72843ebc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11f913f272570475da546d44e48a179c, type: 3}
 --- !u!1 &1579936178 stripped
