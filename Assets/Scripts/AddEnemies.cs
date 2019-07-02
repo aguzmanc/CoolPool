@@ -32,7 +32,6 @@ public class AddEnemies : MonoBehaviour
             obj.transform.rotation = rotation;
             obj.transform.parent = gameObject.transform;
             InsertEnemy(obj);
-            PrefabUtility.RecordPrefabInstancePropertyModifications(obj);
             return obj;
         }
         #else
