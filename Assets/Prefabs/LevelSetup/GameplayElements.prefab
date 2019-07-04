@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507a743a067a44a4e9a19a20fa645e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballImpactWithEnemy: {fileID: 0}
 --- !u!114 &5237480514797878802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +583,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strength: 30
+  ballImpactWithHookSound: {fileID: 0}
+  impactBlock: {fileID: 0}
 --- !u!1 &5237480515196185911
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +723,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5024726389296148582, guid: beeffb012bd174e7f85a05d215a11414,
+        type: 3}
+      propertyPath: hookLineRenderer
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024726389296148582, guid: beeffb012bd174e7f85a05d215a11414,
+        type: 3}
+      propertyPath: hookSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 50d2e39f3bcea48e4b9a809cd49b2c01, type: 3}
+    - target: {fileID: 5024726389296148582, guid: beeffb012bd174e7f85a05d215a11414,
+        type: 3}
+      propertyPath: movePlayerSound
+      value: 
+      objectReference: {fileID: 8300000, guid: eade83897711f448cb9b103e72843ebc, type: 3}
+    - target: {fileID: 5024726389296148582, guid: beeffb012bd174e7f85a05d215a11414,
+        type: 3}
+      propertyPath: hookImpactBlockSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f1e9f6e13cd1e43f5b054f539c6d3808, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beeffb012bd174e7f85a05d215a11414, type: 3}
 --- !u!4 &5237480514939635613 stripped
