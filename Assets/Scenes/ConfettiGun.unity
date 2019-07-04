@@ -182,7 +182,6 @@ PrefabInstance:
     - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
       propertyPath: m_LocalPosition.x
-<<<<<<< HEAD
       value: 6.61
       objectReference: {fileID: 0}
     - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
@@ -194,26 +193,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -4.55
-=======
-      value: 1.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3089192009192382088, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.794
->>>>>>> art of the sphere
       objectReference: {fileID: 0}
     - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
       propertyPath: timeCountingMethod
       value: 1
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 7977275820659751744, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
       propertyPath: m_IsActive
@@ -235,33 +220,4 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-=======
-    - target: {fileID: 3089192009192382095, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.5124817
-      objectReference: {fileID: 0}
-    - target: {fileID: 3089192009192382095, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.5181575
-      objectReference: {fileID: 0}
-    - target: {fileID: 7388558594508727279, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7388558594508727279, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7388558594508727279, guid: 11f913f272570475da546d44e48a179c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3089192009192382094, guid: 11f913f272570475da546d44e48a179c, type: 3}
->>>>>>> art of the sphere
   m_SourcePrefab: {fileID: 100100000, guid: 11f913f272570475da546d44e48a179c, type: 3}
