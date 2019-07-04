@@ -12,18 +12,23 @@ public class Hook : MonoBehaviour
     bool isHooked;
     public Transform targetHooked;
     
+    AudioSource effectsSounds;
+    public AudioClip hookSound;
+    public AudioClip movePlayerSound;
+    bool isMovePlayerSoundActivate;
+
     Ray ray;
     RaycastHit hit;
     float xPositionRayCast;
     Transform playerTransform;
     
-    AudioSource hookShootSound;
+    
 
     void Start() {  
         resetHookPropierties();
         rangeOfHook = 20;
         playerTransform = transform.parent;
-        hookShootSound = GetComponent<AudioSource>();
+        effectsSounds = GetComponent<AudioSource>();
     }
 
     void Update() {
@@ -44,11 +49,16 @@ public class Hook : MonoBehaviour
     void updatePlayerControls() {
 
         if(Input.GetKey(KeyCode.Q) && targetHooked) {
+            
             if(isHookCanBeMoreLittle()) {
                 movePlayerTowardsHookedPoint();
+                ActivateMovePlayerSound();
             }
         }
-
+        else {
+            DeactivateMovePlayerSound();
+        }
+        
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Input.GetMouseButtonDown(0) &&
             Physics.Raycast(ray, out hit) && 
@@ -124,7 +134,21 @@ public class Hook : MonoBehaviour
     }
     
     void ActivateHookSound() {
-        hookShootSound.Play();
+        effectsSounds.clip = hookSound;
+        effectsSounds.Play();
     }
     
+    void ActivateMovePlayerSound() {
+        if(isMovePlayerSoundActivate == false) {
+            effectsSounds.clip = movePlayerSound;
+            isMovePlayerSoundActivate = true;
+            effectsSounds.Play();
+            effectsSounds.loop = true;
+        }
+    }
+
+    void DeactivateMovePlayerSound() {
+        isMovePlayerSoundActivate = false;
+        effectsSounds.loop = false;
+    }
 }
