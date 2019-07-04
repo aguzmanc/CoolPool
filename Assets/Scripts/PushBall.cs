@@ -8,6 +8,7 @@ public class PushBall : MonoBehaviour, IMoveObjects {
 
     AudioSource effectsSoundsBall;
     public AudioClip ballImpactWithHookSound;
+    public AudioClip impactBlock;
     
     void Awake()
     {
@@ -20,6 +21,7 @@ public class PushBall : MonoBehaviour, IMoveObjects {
     {
         if(other.transform.GetComponent<Goal>()) {
            GameManager.TriggerVictory();
+           
         }
     }
 
@@ -36,5 +38,12 @@ public class PushBall : MonoBehaviour, IMoveObjects {
     void ActivateImpactHookWithBall() {
         effectsSoundsBall.clip = ballImpactWithHookSound;
         effectsSoundsBall.Play();
+    }
+
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.transform.GetComponent<BlockCube>()){
+            effectsSoundsBall.PlayOneShot(impactBlock);
+        }
     }
 }

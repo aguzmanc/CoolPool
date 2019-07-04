@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour
     public float elapsedTime;
     static bool gameEnd;
     static int timeIncrease;
+    static AudioSource gameEffects;
+    public AudioClip victorySound;
+    public AudioClip defeatSound;
+    static AudioClip victory;
+    static AudioClip defeat;
+
     
     public static GameManager instance {
         get{ 
@@ -28,6 +34,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        gameEffects = GetComponent<AudioSource>();
+        victory = victorySound;
+        defeat = defeatSound;
         if(_instance) {
             Destroy(gameObject);
             return;
@@ -86,8 +95,10 @@ public class GameManager : MonoBehaviour
     public void ReloadScene() {
         SceneManager.LoadScene(levels[currentLevel]);
     }
-
+   
     public static void TriggerVictory() {
+        gameEffects.clip = victory;
+        gameEffects.Play();
         UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
         gameEnd = true;
         timeIncrease = 0;
@@ -95,6 +106,8 @@ public class GameManager : MonoBehaviour
     }
 
     public static void  Defeat() {
+        gameEffects.clip = defeat;
+        gameEffects.Play();
         UIManager.instance.ShowGameEndedOverlay(GameEndings.GameOver); 
         gameEnd = true;
         timeIncrease = 0;
