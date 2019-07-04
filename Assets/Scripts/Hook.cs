@@ -15,6 +15,9 @@ public class Hook : MonoBehaviour
     AudioSource effectsSounds;
     public AudioClip hookSound;
     public AudioClip movePlayerSound;
+
+    public AudioClip hookImpactBlockSound;
+
     bool isMovePlayerSoundActivate;
 
     Ray ray;
@@ -64,13 +67,12 @@ public class Hook : MonoBehaviour
             Physics.Raycast(ray, out hit) && 
             !isLineHookDrawing) {
             
-            ActivateHookSound();
-            
             if(isHooked) {
                 resetHookBehavior();
             }
 
             else {
+                ActivateHookSound();
                 changeRotationPlayerToHitPoint();
                 startLineHookDrawing();
             }
@@ -99,6 +101,7 @@ public class Hook : MonoBehaviour
 
     public void hookedWithBlockCube() {
         isHooked = true;
+        ActivateHookImpactBlockSound();
     }
 
     public void setTargetCollision(Transform targetTransform) {
@@ -150,5 +153,10 @@ public class Hook : MonoBehaviour
     void DeactivateMovePlayerSound() {
         isMovePlayerSoundActivate = false;
         effectsSounds.loop = false;
+    }
+
+    void ActivateHookImpactBlockSound() {
+        effectsSounds.clip = hookImpactBlockSound;
+        effectsSounds.Play();
     }
 }

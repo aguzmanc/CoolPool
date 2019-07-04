@@ -759,6 +759,8 @@ MonoBehaviour:
   targetHooked: {fileID: 0}
   hookSound: {fileID: 8300000, guid: 50d2e39f3bcea48e4b9a809cd49b2c01, type: 3}
   movePlayerSound: {fileID: 8300000, guid: eade83897711f448cb9b103e72843ebc, type: 3}
+  hookImpactBlockSound: {fileID: 8300000, guid: f1e9f6e13cd1e43f5b054f539c6d3808,
+    type: 3}
 --- !u!54 &5237480514466690015
 Rigidbody:
   m_ObjectHideFlags: 0
