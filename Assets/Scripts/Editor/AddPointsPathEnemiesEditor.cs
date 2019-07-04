@@ -60,6 +60,7 @@ public class AddPointsPathEnemiesEditor : Editor {
                 List<Transform> listOfChilds = Target.GetComponent<FollowPath>().GetAllChildsPath();                
                 if(listOfChilds == null) {
                     Target.GetComponent<FollowPath>().CreatePath();
+                    
                     Undo.RegisterCreatedObjectUndo(Target.GetComponent<FollowPath>().AddPointToPath(hitInfo.point), "Se agrego un punto al path");
                 }
 
