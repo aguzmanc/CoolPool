@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
     public void ShowGameEndOverLay() {
         DestroyHookControl();
         gameOverAnimation.SetBool("Activate", true);
-        LevelChangeButtons();
+        LevelChangeButtonsLose();
     }
 
     public void LevelChangeButtons() {
@@ -92,6 +92,11 @@ public class UIManager : MonoBehaviour
         nextLevelButton.SetBool("Activate", true);
     }
 
+    public void LevelChangeButtonsLose() {
+        backLevelButton.SetBool("Activate", true);
+        repeatLevelButton.SetBool("Activate", true);
+    }
+    
     public void ShowGameEndedOverlay(GameEndings ending) {
         switch(ending) {
             case GameEndings.Victory:
