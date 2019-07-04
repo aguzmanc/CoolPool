@@ -17,10 +17,13 @@ public class Hook : MonoBehaviour
     float xPositionRayCast;
     Transform playerTransform;
     
+    AudioSource hookShootSound;
+
     void Start() {  
         resetHookPropierties();
         rangeOfHook = 20;
         playerTransform = transform.parent;
+        hookShootSound = GetComponent<AudioSource>();
     }
 
     void Update() {
@@ -50,9 +53,13 @@ public class Hook : MonoBehaviour
         if (Input.GetMouseButtonDown(0) &&
             Physics.Raycast(ray, out hit) && 
             !isLineHookDrawing) {
+            
+            ActivateHookSound();
+            
             if(isHooked) {
                 resetHookBehavior();
             }
+
             else {
                 changeRotationPlayerToHitPoint();
                 startLineHookDrawing();
@@ -115,5 +122,9 @@ public class Hook : MonoBehaviour
         hookLineRenderer.SetPosition(1, new Vector3(0, 0, zFinalPosition));
         zFinalPosition+= speed * Time.deltaTime;
     }
-
+    
+    void ActivateHookSound() {
+        hookShootSound.Play();
+    }
+    
 }
