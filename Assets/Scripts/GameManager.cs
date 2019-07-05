@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -74,8 +73,7 @@ public class GameManager : MonoBehaviour
 
     void RetrieveAllScenes() {
         for (int i = 0; i < scenes.Length ; i++){
-            SceneAsset level = scenes[i] as SceneAsset;
-            levels.Add(level.name);
+            levels.Add(scenes[i].name);
         }
     }
 
