@@ -35,7 +35,7 @@ public class AddEnemies : MonoBehaviour
             return obj;
         }
         #else
-        return Instantiate(reference);
+        return Instantiate(enemy);
         #endif
     }
 
