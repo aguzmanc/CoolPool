@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
         _instance = this;
         this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
-        timeIncrease = 1;
         gameEffects = GetComponent<AudioSource>();
         victory = victorySound;
         defeat = defeatSound;
@@ -58,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene (string name, bool loads = true) {
         gameEnd = false;
+        timeIncrease = 1;
 
         if (loads) {
             SceneManager.LoadScene(levels[currentLevel]);
