@@ -102,6 +102,9 @@ public class FollowPath : MonoBehaviour
         pointCreated.transform.position = Vector3.zero;
         pointCreated.transform.parent = path.parent;
         pointCreated.transform.parent = path.transform;
+        
+        #if UNITY_EDITOR
         PrefabUtility.RecordPrefabInstancePropertyModifications(this);
+        #endif
     }
 }
