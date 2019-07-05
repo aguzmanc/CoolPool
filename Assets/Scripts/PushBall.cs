@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PushBall : MonoBehaviour, IMoveObjects {
+
+    public float strengthMultiplier = 1.0f;
+
     public float strength = 30;
     Rigidbody ballRigidbody;
     void Awake()
@@ -24,7 +27,7 @@ public class PushBall : MonoBehaviour, IMoveObjects {
         Vector3 position = collision.GetContact(0).point;
         position.y = 0;
         float strength = collision.transform.GetComponent<PushBall>().strength;
-        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength, position, ForceMode.Impulse);
+        collision.transform.GetComponent<Rigidbody>().AddForceAtPosition(direction.normalized * strength * strengthMultiplier, position, ForceMode.Impulse);
     }
 
     
