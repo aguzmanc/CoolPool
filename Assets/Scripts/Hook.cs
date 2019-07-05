@@ -17,6 +17,7 @@ public class Hook : MonoBehaviour
     public AudioClip movePlayerSound;
 
     public AudioClip hookImpactBlockSound;
+    public Transform Player { get => playerTransform; }
 
     bool isMovePlayerSoundActivate;
 

@@ -36,7 +36,7 @@ public class Collisions : MonoBehaviour
         }
         PushBall bola = isBall(collision);
         if (bola) {
-            bola.hitBall(collision);
+            bola.hitBall(collision, hook.GetComponent<Hook>().Player.position);
             this.resetHook();
         }
     }

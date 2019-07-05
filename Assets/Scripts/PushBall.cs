@@ -25,8 +25,8 @@ public class PushBall : MonoBehaviour, IMoveObjects {
         }
     }
 
-    public void hitBall(Collision collision) {
-        Vector3 direction = collision.transform.position - transform.parent.position;
+    public void hitBall(Collision collision, Vector3 playerPosition) {
+        Vector3 direction = transform.position - playerPosition;
         direction.y = 0;
         Vector3 position = collision.GetContact(0).point;
         position.y = 0;
