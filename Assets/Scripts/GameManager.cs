@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public Object[] scenes;
     static int currentLevel;
-    List<string> levels = new List<string>();
+    // List<string> levels = new List<string>();
     public TimeCountingMethod timeCountingMethod;
     public float elapsedTime;
     static bool gameEnd;
@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour
     static AudioClip victory;
     static AudioClip defeat;
 
-    
+
     public static GameManager instance {
-        get{ 
+        get{
             if(_instance == null){
                 GameObject go = new GameObject();
                 _instance = go.AddComponent<GameManager>();
@@ -41,22 +41,29 @@ public class GameManager : MonoBehaviour
             return;
         }
         _instance = this;
+        this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
         if (timeCountingMethod == TimeCountingMethod.Timed){
             elapsedTime = 0;
         }
         gameEnd = false;
         timeIncrease = 1;
-        
+
     }
 
     void Start() {
-        RetrieveAllScenes();
-        currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
+        // RetrieveAllScenes();
+        // currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
+        for (int i=0; i<scenes.Length; i++) {
+            if (scenes[i].name == SceneManager.GetActiveScene().name) {
+                currentLevel = i;
+                break;
+            }
+        }
         if (timeCountingMethod == TimeCountingMethod.Timed){
             elapsedTime = 0;
         }
-        
+
     }
 
 
@@ -71,33 +78,33 @@ public class GameManager : MonoBehaviour
 
 
 
-    void RetrieveAllScenes() {
-        for (int i = 0; i < scenes.Length ; i++){
-            levels.Add(scenes[i].name);
-        }
-    }
+    // void RetrieveAllScenes() {
+    //     for (int i = 0; i < scenes.Length ; i++){
+    //         levels.Add(scenes[i].name);
+    //     }
+    // }
 
     public void NextScene() {
-        if (currentLevel < levels.Count - 1 ) {
-            SceneManager.LoadScene(levels[currentLevel + 1]);
+        if (currentLevel < scenes.Length - 1 ) {
+            SceneManager.LoadScene(scenes[currentLevel + 1].name);
         }
     }
 
 
     public void PreviousScene() {
         if (currentLevel > 0) {
-            SceneManager.LoadScene(levels[currentLevel - 1]);
+            SceneManager.LoadScene(scenes[currentLevel - 1].name);
         }
     }
 
     public void ReloadScene() {
-        SceneManager.LoadScene(levels[currentLevel]);
+        SceneManager.LoadScene(scenes[currentLevel].name);
     }
-   
+
     public static void TriggerVictory() {
         gameEffects.clip = victory;
         gameEffects.Play();
-        UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory); 
+        UIManager.instance.ShowGameEndedOverlay(GameEndings.Victory);
         gameEnd = true;
         timeIncrease = 0;
         ConffetiGunsManager.instance.activateConffetiGuns();
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour
     public static void  Defeat() {
         gameEffects.clip = defeat;
         gameEffects.Play();
-        UIManager.instance.ShowGameEndedOverlay(GameEndings.GameOver); 
+        UIManager.instance.ShowGameEndedOverlay(GameEndings.GameOver);
         gameEnd = true;
         timeIncrease = 0;
     }
