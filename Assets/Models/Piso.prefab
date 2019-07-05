@@ -345,6 +345,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: floorArt
       objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 7ca3fac169c664208a225b66f565bbc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7ca3fac169c664208a225b66f565bbc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
