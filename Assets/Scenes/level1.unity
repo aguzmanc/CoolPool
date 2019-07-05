@@ -273,6 +273,12 @@ PrefabInstance:
       propertyPath: timeCountingMethod
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3089192009325745677, guid: 11f913f272570475da546d44e48a179c,
+        type: 3}
+      propertyPath: scenes.Array.data[0]
+      value: 
+      objectReference: {fileID: 102900000, guid: 44684ffcac9374b3995765078544d5e7,
+        type: 3}
     - target: {fileID: 3089192009525400398, guid: 11f913f272570475da546d44e48a179c,
         type: 3}
       propertyPath: hookSound
