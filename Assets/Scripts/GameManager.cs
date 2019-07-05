@@ -40,25 +40,13 @@ public class GameManager : MonoBehaviour
         _instance = this;
         this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
-        if (timeCountingMethod == TimeCountingMethod.Timed){
-            elapsedTime = 0;
-        }
-        gameEnd = false;
         timeIncrease = 1;
         gameEffects = GetComponent<AudioSource>();
         victory = victorySound;
         defeat = defeatSound;
-
-    }
-
-    void Start() {
         currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
-        if (timeCountingMethod == TimeCountingMethod.Timed){
-            elapsedTime = 0;
-        }
-
+        LoadScene(levels[currentLevel], false);
     }
-
 
     void Update()
     {
@@ -68,21 +56,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadScene (string name, bool loads = true) {
+        gameEnd = false;
+
+        if (loads) {
+            SceneManager.LoadScene(levels[currentLevel]);
+        }
+
+        if (timeCountingMethod == TimeCountingMethod.Timed){
+            elapsedTime = 0;
+        }
+    }
+
     public void NextScene() {
         if (currentLevel < levels.Count - 1 ) {
-            SceneManager.LoadScene(levels[currentLevel + 1]);
+            currentLevel++;
+            LoadScene(levels[currentLevel]);
         }
     }
 
 
     public void PreviousScene() {
         if (currentLevel > 0) {
-            SceneManager.LoadScene(levels[currentLevel - 1]);
+            currentLevel--;
+            LoadScene(levels[currentLevel]);
         }
     }
 
     public void ReloadScene() {
-        SceneManager.LoadScene(levels[currentLevel]);
+        LoadScene(levels[currentLevel]);
     }
 
     public static void TriggerVictory() {
