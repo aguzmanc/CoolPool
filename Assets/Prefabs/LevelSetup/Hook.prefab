@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hookLineRenderer: {fileID: 7197409349646587711}
-  speed: 8
+  speed: 30
   targetHooked: {fileID: 0}
   hookSound: {fileID: 0}
   movePlayerSound: {fileID: 0}
