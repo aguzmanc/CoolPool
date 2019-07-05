@@ -33,9 +33,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        gameEffects = GetComponent<AudioSource>();
-        victory = victorySound;
-        defeat = defeatSound;
         if(_instance) {
             Destroy(gameObject);
             return;
@@ -48,6 +45,9 @@ public class GameManager : MonoBehaviour
         }
         gameEnd = false;
         timeIncrease = 1;
+        gameEffects = GetComponent<AudioSource>();
+        victory = victorySound;
+        defeat = defeatSound;
 
     }
 
