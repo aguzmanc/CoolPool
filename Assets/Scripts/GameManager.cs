@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public Object[] scenes;
+    public List<string> levels;
     static int currentLevel;
     // List<string> levels = new List<string>();
     public TimeCountingMethod timeCountingMethod;
@@ -52,14 +52,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        // RetrieveAllScenes();
-        // currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
-        for (int i=0; i<scenes.Length; i++) {
-            if (scenes[i].name == SceneManager.GetActiveScene().name) {
-                currentLevel = i;
-                break;
-            }
-        }
+        currentLevel = levels.IndexOf(SceneManager.GetActiveScene().name);
         if (timeCountingMethod == TimeCountingMethod.Timed){
             elapsedTime = 0;
         }
@@ -75,30 +68,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-
-    // void RetrieveAllScenes() {
-    //     for (int i = 0; i < scenes.Length ; i++){
-    //         levels.Add(scenes[i].name);
-    //     }
-    // }
-
     public void NextScene() {
-        if (currentLevel < scenes.Length - 1 ) {
-            SceneManager.LoadScene(scenes[currentLevel + 1].name);
+        if (currentLevel < levels.Count - 1 ) {
+            SceneManager.LoadScene(levels[currentLevel + 1]);
         }
     }
 
 
     public void PreviousScene() {
         if (currentLevel > 0) {
-            SceneManager.LoadScene(scenes[currentLevel - 1].name);
+            SceneManager.LoadScene(levels[currentLevel - 1]);
         }
     }
 
     public void ReloadScene() {
-        SceneManager.LoadScene(scenes[currentLevel].name);
+        SceneManager.LoadScene(levels[currentLevel]);
     }
 
     public static void TriggerVictory() {

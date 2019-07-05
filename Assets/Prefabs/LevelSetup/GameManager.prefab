@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463d88db0915047b9802f28d15a71cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenes:
-  - {fileID: 102900000, guid: 44684ffcac9374b3995765078544d5e7, type: 3}
-  - {fileID: 102900000, guid: 566d6313190be408b82e784215281305, type: 3}
-  - {fileID: 102900000, guid: 92c5e49f5d20b43e3808381cff9e288d, type: 3}
+  levels:
+  - level1
+  - level2
+  - level3
   timeCountingMethod: 0
   elapsedTime: 0
   victorySound: {fileID: 8300000, guid: 08732900c4a094873a70f706bba0503a, type: 3}
