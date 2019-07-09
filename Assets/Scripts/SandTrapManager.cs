@@ -3,22 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SandTrapManager : MonoBehaviour
-{
+public class SandTrapManager : Singleton<SandTrapManager> {
 
-    public static SandTrapManager instance = null;
     public List<GameObject> SandTrapList = new List<GameObject>();
-
-    void Awake() {
-        if (instance == null) {
-            instance = this;
-        }
-
-        else if (instance != this) {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
 
 
     public void FindSandTrapsInTheScene() {
