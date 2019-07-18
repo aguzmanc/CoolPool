@@ -18,6 +18,6 @@ public class SandTrapManager : Singleton<SandTrapManager> {
     }
     public void ClearList() {
         SandTrapList.Clear();
-    }       
+    }
 
 }

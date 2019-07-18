@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 [CustomEditor(typeof(SandTrapManager)), CanEditMultipleObjects]
 public class SandTrapManagerEditor : Editor {
+
+public static bool MoveSandTrap;
+public static bool CreateSandTrap;
+public static bool DeleteSandTrap;
+
     SandTrapManager Target { get => (SandTrapManager) target; }
 
 void OnEnable() {
@@ -19,33 +24,62 @@ void OnDisable() {
 
 public override void OnInspectorGUI() {
     DrawDefaultInspector();
-    bool MoveSandTrap = GUILayout.Button("Move traps");
-    
+    MoveSandTrap = GUILayout.Toggle(MoveSandTrap, "Move traps", "Button");
+    CreateSandTrap = GUILayout.Toggle(CreateSandTrap, "Create traps", "Button");
+    DeleteSandTrap = GUILayout.Toggle(DeleteSandTrap, "Delete traps", "Button");
 
     if (MoveSandTrap) {
+        SceneView.RepaintAll();
+    }
 
-
+    if (CreateSandTrap) {
 
     }
+
+    if (DeleteSandTrap) {
+        SceneView.RepaintAll();
+    }
+
 }
 
 
 void OnSceneGUI() {
         
     if (Target.SandTrapList == null || Target.SandTrapList.Count == 0) return;
+    
+    if (DeleteSandTrap) {
+        DrawDeleteSquares();
+    } 
+
+    if (MoveSandTrap) {
+        DrawGizmos();
+    }
+    
+}
+
+void DrawGizmos() {
 
     foreach (GameObject trap in Target.SandTrapList) {
-        bool PresstheButton =
-                Handles.Button(trap.transform.position
+        EditorGUI.BeginChangeCheck();
+        Vector3 newTargetPosition = Handles.PositionHandle(trap.transform.position, Quaternion.identity);
+        
+        if (EditorGUI.EndChangeCheck()) {
+            Undo.RecordObject(trap, "A trap was moved");
+            trap.transform.position = newTargetPosition;
+            }
+        }
+    }
+
+void DrawDeleteSquares() {
+    foreach (GameObject trap in Target.SandTrapList) {
+      bool PresstheButton =
+            Handles.Button(trap.transform.position
                 + trap.transform.forward * 0.5f
                 + trap.transform.right * 0.5f,
                 Quaternion.Euler(90,0,0),
                 0.5f, 0.5f,
-                Handles.RectangleHandleCap); 
-
-        DrawGizmos(trap);
-
-
+                Handles.RectangleHandleCap);
+        
         if (PresstheButton) {
 
             Undo.RecordObject(Target, "Sand trap destroyed");
@@ -54,28 +88,11 @@ void OnSceneGUI() {
             break;
 
             }
-        }
     }
-
-void DrawGizmos(GameObject trap) {
-
-    EditorGUI.BeginChangeCheck();
-    Vector3 newTargetPosition = Handles.PositionHandle(trap.transform.position, Quaternion.identity);
-    if (EditorGUI.EndChangeCheck()) {
-
-        Undo.RecordObject(trap, "A trap was moved");
-        trap.transform.position = newTargetPosition;
-
-    }
-
-
 }
-
 void FixtheList() {
 
     Target.ClearList();
     Target.FindSandTraps();
-
-    }
-
+        }
 }
