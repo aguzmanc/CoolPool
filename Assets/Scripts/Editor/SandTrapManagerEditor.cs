@@ -14,7 +14,7 @@ public static bool DeleteSandTrap;
     SandTrapManager Target { get => (SandTrapManager) target; }
 
 void OnEnable() {
-    Target.FindSandTraps();
+    FixtheList();
     Undo.undoRedoPerformed += FixtheList;
     }
 
@@ -33,7 +33,7 @@ public override void OnInspectorGUI() {
     }
 
     if (CreateSandTrap) {
-
+        SceneView.RepaintAll();
     }
 
     if (DeleteSandTrap) {
@@ -49,7 +49,11 @@ void OnSceneGUI() {
     
     if (DeleteSandTrap) {
         DrawDeleteSquares();
-    } 
+    }
+
+    if (CreateSandTrap) {
+        EnableCreateMode();
+    }
 
     if (MoveSandTrap) {
         DrawGizmos();
@@ -71,6 +75,14 @@ void DrawGizmos() {
             }
         }
     }
+
+void EnableCreateMode () {
+
+
+
+    FixtheList();
+}
+
 
 void DrawDeleteSquares() {
     foreach (GameObject trap in Target.SandTrapList) {

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SandTrapManager : Singleton<SandTrapManager> {
 
+    public GameObject TrapPrefab;
     public List<GameObject> SandTrapList = new List<GameObject>();
 
 
