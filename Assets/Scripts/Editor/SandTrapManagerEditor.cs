@@ -64,8 +64,10 @@ void DrawGizmos() {
         Vector3 newTargetPosition = Handles.PositionHandle(trap.transform.position, Quaternion.identity);
         
         if (EditorGUI.EndChangeCheck()) {
-            Undo.RecordObject(trap, "A trap was moved");
+            
+            Undo.RecordObject(trap.transform, "A trap was moved");
             trap.transform.position = newTargetPosition;
+            
             }
         }
     }
