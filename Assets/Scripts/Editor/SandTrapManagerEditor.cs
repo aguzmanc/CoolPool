@@ -78,6 +78,22 @@ void DrawGizmos() {
 
 void EnableCreateMode () {
 
+Ray rayo = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        RaycastHit hit;
+
+        bool didHit = Physics.Raycast(rayo, out hit);
+        bool isClicking =
+            Event.current.type == EventType.MouseDown &&
+            Event.current.button == 0;
+
+        if (didHit && isClicking) {
+            GUIUtility.hotControl = GUIUtility.GetControlID(FocusType.Passive);
+            Event.current.Use();
+            GameObject newTrap = Instantiate(Target.TrapPrefab);
+            newTrap.transform.position = hit.point;
+
+            Undo.RegisterCreatedObjectUndo(newTrap, "Game object created");
+        }
 
 
     FixtheList();
